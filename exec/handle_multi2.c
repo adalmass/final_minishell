@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:24:28 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/09 20:53:42 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:22:08 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,12 @@
 void    execute_multi(char **cmd, char **envp)
 {
 	if (execve(cmd[0], cmd, envp) == -1)
-		perror("Error cmd ");
+	{
+		g_exit_status = 127;
+		perror(RED "Command not found" RESET);
+	}
+	else
+		g_exit_status = 0;
 }
 
 void    handl_cmd(t_data *dta, int in_fd, char **envp)
@@ -54,7 +59,6 @@ void    handl_last_cmd(t_data *dta, int in_fd, char **envp)
 		close (dta->file);
 	}
 	close(in_fd);
-	g_exit_status = 0;
 }
 void 	handl_multi_pipe(t_data *dta, char **envp, int in_fd)
 {
@@ -63,9 +67,9 @@ void 	handl_multi_pipe(t_data *dta, char **envp, int in_fd)
 	while (dta->idx < dta->nb_pipe - 1) 
 	{
 		if (pipe(dta->pipe_fd) == -1)
-			perror("pipe");
+			perror(RED "fork" RESET);
 		if ((dta->pid = fork()) == -1)
-			perror("fork");
+			perror(RED "fork" RESET);
 		if (dta->pid == 0) 
 			handl_cmd(dta, in_fd, envp);
 		else
@@ -78,7 +82,7 @@ void 	handl_multi_pipe(t_data *dta, char **envp, int in_fd)
 		dta->idx++;
 	}
 	if ((dta->pid = fork()) == -1) 
-		perror("fork");
+		perror(RED "fork" RESET);
 	if (dta->pid == 0)
 		handl_last_cmd(dta, in_fd, envp);	
 }
@@ -101,4 +105,5 @@ void	multi_pipe(t_data *dta, char **envp)
 	close(out_fd);
 	dta->idx = 0;
 	dta->nb_pipe = 0;
+	return ;
 }

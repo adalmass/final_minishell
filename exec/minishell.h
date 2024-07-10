@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:01:03 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/09 20:50:21 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:38:50 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,8 @@ void	handl_redirect2(t_data *dta);
 void	init_struct_redi(t_data *dta, char **envp);
 void	regroup_cmd_args(t_data *dta);
 int		count_redir(char *str, char redir);
+void	exec_redir2(t_data *dta);
+void	handl_redirect3(t_data *dta, int i);
 // GESTION DE REVERSE REDIRECTION :
 void	check_reverse_redirect(t_data *dta);
 void	handl_redirect_input2(t_data *dta);

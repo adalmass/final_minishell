@@ -1,46 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   redirect3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/09 16:23:28 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/10 15:21:36 by bbousaad         ###   ########.fr       */
+/*   Created: 2024/07/10 15:37:14 by bbousaad          #+#    #+#             */
+/*   Updated: 2024/07/10 15:56:25 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execute_solo(char **cmd, char **envp)
+void    handl_redirect3(t_data *dta, int i)
 {
-	pid_t	pid_;
-
-	pid_ = fork();
-	if (pid_ == 0)
+	if (count_redir(dta->exec[i], '>') == 2)
 	{
-		if (execve(cmd[0], cmd, envp) == -1)
-		{
-			g_exit_status = 127;
-			perror(RED "Command not found " RESET);
-		}
-		else
-			g_exit_status = 0;
+		dta->str = ft_splitt(dta->redi[1], ' ');
+		if (dta->str[1] != NULL)
+			regroup_cmd_args(dta);
+		exec_redir2(dta);
 	}
 }
 
-void	take_exec(t_data *dta)
+void	exec_redir2(t_data *dta)
 {
-	int	i;
-	int	len;
+	int	outcpy;
 
-	i = 0;
-	len = 0;
-	while (dta->exec[len])
-		len++;
-	while (i <= len - 1)
+	if(dta->redi[1] != 0)
 	{
-		dta->cmd1 = ft_splitt(dta->exec[i], ' ');
+		outcpy = dup(STDOUT_FILENO);
+		dta->file = open(dta->str[0], O_WRONLY, O_CREAT ,O_APPEND,
+                (S_IRUSR | S_IWUSR));
+		dta->cmd1 = ft_splitt(dta->redi[0], ' ');
 		search_path(dta);
 		if (access(dta->cmd1[0], X_OK) == -1)
 		{
@@ -49,10 +41,13 @@ void	take_exec(t_data *dta)
 		}
 		else
 		{
-			g_exit_status = 0;
+			dup2(dta->file, STDOUT_FILENO);
+			close(dta->file);
 			execute_solo(dta->cmd1, dta->envp);
+			waitpid(-1, NULL, 0);
+			dup2(outcpy, STDOUT_FILENO);
+			close(outcpy);
 		}
-		waitpid(-1, NULL, 0);
-		i++;
 	}
+	return ;
 }

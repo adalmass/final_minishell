@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:25 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/09 20:26:23 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/10 14:07:12 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,13 @@ void	ft_exit(t_data *dta)
 		if (dta->read[1] == 0)
 		{
 			write(1, "exit\n", 5);
+			g_exit_status = 0;
 			exit(0);
 		}
 		if ((ft_strncmpp(dta->read[1], "0", 1) == 0) && dta->read[1][1] == 0)
 		{
 			write(1, "exit\n", 5);
+			g_exit_status = 0;
 			exit(0);
 		}
 		ft_exit2(dta);
@@ -37,12 +39,14 @@ void	ft_exit2(t_data *dta)
 		if (dta->read[2] != 0)
 		{
 			printf("exit\n");
-			printf("exit: too many arguments\n");
+			g_exit_status = 2;
+			printf(RED "exit: too many arguments\n" RESET);
 			return ;
 		}
 		if (ft_isalphaa(dta->read[1]) == 1)
 		{
 			printf("exit: %s: numeric argument required\n", dta->read[1]);
+			g_exit_status = 2;
 			exit(2);
 		}
 		else if (ft_atoi(dta->read[1]) != 0)
@@ -64,7 +68,8 @@ int	ft_cd(t_data *dta)
 				return (0);
 			else
 			{
-				perror("Error ");
+				perror(RED "Error " RESET);
+				g_exit_status = 2;
 				return (1);
 			}
 		}

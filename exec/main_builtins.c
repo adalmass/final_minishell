@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:49:21 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/09 16:57:22 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:24:46 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,12 @@ void	handl_exec2(t_data *dta, char **envp)
 		if (dta->read[1][0] == '-' && dta->read[1][1] == 'n')
 		{
 			print_echo(dta);
+			g_exit_status = 0;
 			return ;
 		}
 		handl_dollar(dta, i, len);
 		printf("\n");
+		g_exit_status = 0;
 	}
 	else
 		handl_exec3(dta, envp);

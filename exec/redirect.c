@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:48 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/09 20:34:10 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/10 14:16:44 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	check_file(t_data *dta)
 {
 	if (access(dta->str[0], R_OK) == -1)
 	{
+		g_exit_status = 2;
 		perror("Error ");
 		return (1);
 	}
@@ -35,7 +36,10 @@ void	check_redirect(t_data *dta)
 			close(dta->file);
 		}
 		else
+		{
+			g_exit_status = 2;
 			printf("syntax error near unexpected token `newline'\n");
+		}
 	}
 	check_redirect3(dta);
 }
@@ -48,6 +52,7 @@ void	check_redirect3(t_data *dta)
 		{
 			if (ft_strncmpp(&dta->read[1][0], ">", 1) == 0)
 			{
+				g_exit_status = 2;
 				printf("%s\n", "syntaxe error near unexpected token '>'");
 				return ;
 			}
@@ -57,7 +62,10 @@ void	check_redirect3(t_data *dta)
 			close(dta->file);
 		}
 		else
+		{
+			g_exit_status = 2;
 			printf("syntax error near unexpected token `newline'\n");
+		}
 	}
 	check_redirect2(dta);
 }

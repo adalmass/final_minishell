@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:38 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/09 17:03:26 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:45:07 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,15 @@ void	exec_redir(t_data *dta)
 	if(dta->redi[1] != 0)
 	{
 		outcpy = dup(STDOUT_FILENO);
-		dta->file = open(dta->str[0], O_TRUNC | O_CREAT | O_WRONLY, (S_IRUSR | S_IWUSR));
+		dta->file = open(dta->str[0], O_TRUNC | O_CREAT | O_WRONLY,
+				(S_IRUSR | S_IWUSR));
 		dta->cmd1 = ft_splitt(dta->redi[0], ' ');
 		search_path(dta);
 		if (access(dta->cmd1[0], X_OK) == -1)
-			perror("Command not found ");
+		{
+			g_exit_status = 127;
+			perror(RED "Command not found " RESET);
+		}
 		else
 		{
 			dup2(dta->file, STDOUT_FILENO);
@@ -88,9 +92,8 @@ void	handl_redirect(t_data *dta)
 	{
 		while (i < len)
 		{
-			if (count_redir(dta->exec[i], '>'))
+			if (count_redir(dta->exec[i], '>') == 1)
 			{
-				dta->str = ft_splitt(dta->redi[1], ' ');
 				if (dta->str[1] != NULL)
 					regroup_cmd_args(dta);
 				exec_redir(dta);
@@ -104,13 +107,21 @@ void	handl_redirect2(t_data  *dta)
 {
 	if (dta->exec[1] == 0)
 	{
-		if (count_redir(dta->exec[0], '>'))
+		if (count_redir(dta->exec[0], '>') == 1)
 		{
 			dta->redi = ft_splitt(dta->exec[0], '>');
 			dta->str = ft_splitt(dta->redi[1], ' ');
 			if(dta->str[1] != NULL)
 				regroup_cmd_args(dta);
 			exec_redir(dta);
+		}
+		if (count_redir(dta->exec[0], '>') == 2)
+		{
+			dta->redi = ft_splitt(dta->exec[0], '>');
+			dta->str = ft_splitt(dta->redi[1], ' ');
+			if(dta->str[1] != NULL)
+				regroup_cmd_args(dta);
+			exec_redir2(dta);
 		}
 	}
 }

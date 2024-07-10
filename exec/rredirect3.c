@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 11:27:26 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/08 21:29:52 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:26:47 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@ void	exec_rredirect3(t_data *dta)
 {
 	dta->cmd1 = ft_splitt(dta->rredi[0], ' ');
 	search_path(dta);
-	if (access(dta->cmd1[0], X_OK) == -1)
-		perror("Command not found ");
 	execute_solo(dta->cmd1, dta->envp);
 	waitpid(-1, NULL, 0);
 }

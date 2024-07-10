@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:23:21 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/09 20:26:56 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/10 14:13:20 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ void	init_cmd_multi(t_data *dta)
 		dta->cmd1 = ft_splitt(dta->rredi[0], ' ');
 	search_path(dta);
 	if (access(dta->cmd1[0], X_OK) == -1)
-	{
-		g_exit_status = 1;
-		perror("Command not found");
-	}
+		g_exit_status = 127;
 }
 
 void	check_input_output(int in_fd, int out_fd)
@@ -34,7 +31,8 @@ void	check_input_output(int in_fd, int out_fd)
 	{
 		if (dup2(in_fd, STDIN_FILENO) == -1)
 		{
-			perror("dup2");
+			perror(RED "dup2 " RESET);
+			g_exit_status = 2;
 			exit(EXIT_FAILURE);
 		}
 		close(in_fd);
@@ -43,7 +41,8 @@ void	check_input_output(int in_fd, int out_fd)
 	{
 		if (dup2(out_fd, STDOUT_FILENO) == -1)
 		{
-			perror("dup2");
+			perror(RED "dup2 " RESET);
+			g_exit_status = 2;
 			exit(EXIT_FAILURE);
 		}
 		close(out_fd);
@@ -56,7 +55,8 @@ void	exec_cmd(t_data *dta, char **envp, int in_fd, int out_fd)
 	{
 		if (dup2(in_fd, STDIN_FILENO) == -1)
 		{
-			perror("dup2");
+			perror(RED "dup2 " RESET);
+			g_exit_status = 2;
 			exit(EXIT_FAILURE);
 		}
 		close(in_fd);
@@ -65,7 +65,8 @@ void	exec_cmd(t_data *dta, char **envp, int in_fd, int out_fd)
 	{
 		if (dup2(out_fd, STDOUT_FILENO) == -1)
 		{
-			perror("dup2");
+			perror(RED "dup2" RESET);
+			g_exit_status = 2;
 			exit(EXIT_FAILURE);
 		}
 		close(out_fd);

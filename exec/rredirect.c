@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:51 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/08 21:29:26 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/10 14:15:38 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ void    reverse_redirect(t_data *dta)
 				prompt_rredirect(dta);
 			}
 			else
+			{
+				g_exit_status = 2;
 				printf("minishell : syntax error near unexpected token `newline'\n");
+			}
 		}
 	}
 }
