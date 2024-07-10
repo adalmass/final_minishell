@@ -35,19 +35,13 @@ SRC = main.c \
 	  exec/libft/ft_atoi.c \
 	  exec/libft/ft_substr.c \
 	  parsing/parsing.c \
-	  parsing/parsing2.c \
 	  parsing/check_cmd.c \
-	  parsing/check_cmd2.c \
 	  parsing/tools.c \
 	  parsing/utils.c \
 	  parsing/redir_n_pipe.c \
 	  parsing/handle_quotes.c \
 	  parsing/handle_quotes2.c \
-	  parsing/quotes_builtins.c \
-	  parsing/splitted_builtins.c \
 	  parsing/handle_pipes.c \
-	  parsing/handle_pipes2.c \
-	  parsing/substr_remake.c \
 	  parsing/mini_libft/ft_strdup.c \
 	  parsing/mini_libft/ft_strjoin.c \
 	  parsing/mini_libft/ft_strcpy.c \
