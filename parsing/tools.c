@@ -18,6 +18,7 @@ void	parse_error(t_parse *p, char *error_msg)
 		p->error_found = 1;
 	else
 		return ;
+	g_exit_status = 2;
 	ft_putstr_fd(RED "minishell: " RESET, 2);
 	ft_putstr_fd(error_msg, 2);
 	ft_putstr_fd("\n", 2);

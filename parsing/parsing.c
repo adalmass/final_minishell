@@ -6,7 +6,7 @@
 /*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 15:24:51 by aldalmas          #+#    #+#             */
-/*   Updated: 2024/07/09 19:57:57 by aldalmas         ###   ########.fr       */
+/*   Updated: 2024/07/10 14:41:20 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,12 +114,11 @@ void	check_cmdtable_error(t_parse *p)
 		check_redir(p, p->cmd_table[y]);
 		p->space_found = 0;
 		y++;
-		//exit (0);
 	}
 }
 
 int	parsing(t_parse *p)
-{	
+{
 	init_struct(p);
 	if (!check_quotes_closed(p, '\'') || !check_quotes_closed(p, '\"'))
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 14:52:31 by aldalmas          #+#    #+#             */
-/*   Updated: 2024/07/09 20:13:54 by aldalmas         ###   ########.fr       */
+/*   Updated: 2024/07/10 14:15:13 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,6 @@ int	check_quote_found(int quote)
 	if (quote == 2)
 		return (0);
 	return (quote);
-}
-
-int	find_redir(t_parse *p, char *cmd, int echo_found)
-{
-	int	i;
-	int	redir_found;
-
-	i = 0;
-	redir_found = 0;
-	while (cmd[i])
-	{
-		if (redir_found > 0 && echo_found == 0)
-		{
-			parse_error(p, "ICI Command not found");
-			return (1);
-		}
-		if (cmd[i] == '<' || cmd[i] == '>' )
-			redir_found++;
-		i++;
-	}
-	return (0);
 }
 
 // A REVOIR 

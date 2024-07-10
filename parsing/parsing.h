@@ -91,6 +91,7 @@ void	pipe_found(t_parse *p, char next_char);
 void	remove_quotes(t_parse *p, int idx_cmd);
 
 // --- redir_n_pipe.c
+int	find_redir(t_parse *p, char *cmd, int echo_found);
 void	redir_left_found(t_parse *p, char c);
 void	redir_right_found(t_parse *p, char next_char);
 void	pipe_found(t_parse *p, char next_char);

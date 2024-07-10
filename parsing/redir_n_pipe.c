@@ -46,3 +46,24 @@ void	first_check_cmdline(t_parse *p)
 		i++;
 	}
 }
+
+int	find_redir(t_parse *p, char *cmd, int echo_found)
+{
+	int	i;
+	int	redir_found;
+
+	i = 0;
+	redir_found = 0;
+	while (cmd[i])
+	{
+		if (redir_found > 0 && echo_found == 0)
+		{
+			parse_error(p, "ICI Command not found");
+			return (1);
+		}
+		if (cmd[i] == '<' || cmd[i] == '>' )
+			redir_found++;
+		i++;
+	}
+	return (0);
+}

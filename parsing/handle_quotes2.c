@@ -6,7 +6,7 @@
 /*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 22:13:53 by aldalmas          #+#    #+#             */
-/*   Updated: 2024/07/09 20:28:36 by aldalmas         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:09:14 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,9 @@ void	rejoin_to_cmdtable(t_parse *p, int idx_cmd)
 	p->cmd_table[idx_cmd] = ft_strdup("");
 	while (p->splitted_built[y])
 	{
-		temp = strjoin_free(p->splitted_built[y], " ");
+		temp = ft_strjoin(p->splitted_built[y], " ");
 		p->cmd_table[idx_cmd] = strjoin_free(p->cmd_table[idx_cmd], temp);
-		if (temp)
-			free (temp);
+		free (temp);
 		y++;
 	}
 }
@@ -103,12 +102,6 @@ void	remove_quotes(t_parse *p, int idx_cmd)
 	replace = -1;
 	replace_spaces(p, idx_cmd, replace);
 	p->splitted_built = ft_split(p->cmd_table[idx_cmd], ' ');
-	int i = 0;
-	while (p->splitted_built[i])
-	{
-		printf("splitted built: %s\n", p->splitted_built[i]);
-		i++;
-	}
 	restore_spaces(p, replace);
 	if (find_space(p))
 		return ;
@@ -118,5 +111,5 @@ void	remove_quotes(t_parse *p, int idx_cmd)
 		y++;
 	}
 	rejoin_to_cmdtable(p, idx_cmd);
-	printf("cmdtable rjoin: %d\n", ft_strlen(p->cmd_table[idx_cmd]));
+	free_double_tab(p->splitted_built);
 }
