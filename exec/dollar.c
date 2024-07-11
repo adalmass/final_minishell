@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:35 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/09 16:40:43 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/11 17:34:52 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ void	take_var3(t_data *dta)
 
 	i = 1;
 	len = 0;
-	while (dta->read[len])
-		len++;
+	len = len_cmd(dta->read);
 	while (i < len)
 	{
 		take_var(dta, i);
@@ -52,14 +51,18 @@ void	take_var3(t_data *dta)
 
 void	take_var4(t_data *dta, int i, int j)
 {
-	while (dta->cpy_envp[i][j - 1] != '=')
+	int len;
+
+	len = len_read(dta->cpy_envp, i);
+	while (dta->cpy_envp[i][j] != '=')
 		j++;
-	while (dta->cpy_envp[i][j])
+	j++;
+	while (dta->cpy_envp[i][j] && j < len)
 	{
-		write(1, &dta->cpy_envp[i][j], 1);
+		printf("%c", dta->cpy_envp[i][j]);
 		j++;
 	}
-	write(1, " ", 1);
+	printf(" ");
 }
 
 void	take_var2(t_data *dta, int z)
@@ -68,20 +71,25 @@ void	take_var2(t_data *dta, int z)
 	int		len;
 	int		j;
 	char	*var;
+	int		idx;
 
 	i = 0;
 	len = 0;
 	j = 0;
+	idx = 0;
 	var = take_var(dta, z);
 	while (var[len])
 		len++;
 	while (dta->cpy_envp[i])
 	{
-		if ((ft_strncmpp(dta->cpy_envp[i], var, len) == 0)
+		idx = len_read(dta->cpy_envp, i);
+		if ((idx >= len && ft_strncmpp(dta->cpy_envp[i], var, len) == 0)
 			&& dta->cpy_envp[i][len] == '=')
 		{
 			take_var4(dta, i, j);
+			break ;
 		}
 		i++;
 	}
+	free(var);
 }

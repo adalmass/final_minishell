@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:23:28 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/10 15:21:36 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/11 22:00:30 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,30 +29,21 @@ void	execute_solo(char **cmd, char **envp)
 	}
 }
 
-void	take_exec(t_data *dta)
+void	take_exec(t_data *dta, char **envp)
 {
-	int	i;
-	int	len;
-
-	i = 0;
-	len = 0;
-	while (dta->exec[len])
-		len++;
-	while (i <= len - 1)
+	dta->cmd1 = ft_splitt(dta->exec[0], ' ');
+	search_path(dta, envp);
+	if (access(dta->cmd1[0], X_OK) == -1)
 	{
-		dta->cmd1 = ft_splitt(dta->exec[i], ' ');
-		search_path(dta);
-		if (access(dta->cmd1[0], X_OK) == -1)
-		{
-			g_exit_status = 127;
-			perror(RED "Command not found " RESET);
-		}
-		else
-		{
-			g_exit_status = 0;
-			execute_solo(dta->cmd1, dta->envp);
-		}
-		waitpid(-1, NULL, 0);
-		i++;
+		g_exit_status = 127;
+		perror(RED "Command not found " RESET);
 	}
+	else
+	{
+		g_exit_status = 0;
+		execute_solo(dta->cmd1, dta->envp);
+	}
+	waitpid(-1, NULL, 0);
+	free_double_tab(dta->cmd1);
+	free_double_tab(dta->path);
 }

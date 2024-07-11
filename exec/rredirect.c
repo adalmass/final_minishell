@@ -6,13 +6,13 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:51 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/10 14:15:38 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/11 20:11:01 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void     check_reverse_redirect(t_data *dta)
+void     check_reverse_redirect(t_data *dta, char **envp)
 {
 	int j;
 
@@ -21,7 +21,7 @@ void     check_reverse_redirect(t_data *dta)
 	{
 		if (dta->exec[0][j] == '<' && dta->exec[0][j + 1] != '<')
 		{
-			handl_redirect_input2(dta);
+			handl_redirect_input2(dta, envp);
 			break ;
 		}
 		else if (dta->exec[0][j] == '<' && dta->exec[0][j + 1] == '<')
@@ -74,7 +74,7 @@ void    prompt_rredirect(t_data *dta)
 		free (temp);
 }
 
-void	prompt_redirect4(t_data *dta)
+void	prompt_redirect4(t_data *dta, char **envp)
 {
 	int		limit_found;
 	char	*temp;
@@ -92,7 +92,7 @@ void	prompt_redirect4(t_data *dta)
 		if (ft_strncmpp(temp, dta->str[0], lenn) == 0)
 		{
 			printf("\n");
-			exec_rredirect3(dta);
+			exec_rredirect3(dta, envp);
 			limit_found = 1;
 		}
 	}

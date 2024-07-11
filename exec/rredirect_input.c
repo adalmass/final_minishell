@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 13:09:35 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/09 17:05:47 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/11 20:10:01 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	regroup_cmd_args_input(t_data *dta)
 	dta->rredi[0] = ft_strjoin_freee(dta->rredi[0], dta->rredi[1]);
 }
 
-void	exec_redir_input(t_data *dta)
+void	exec_redir_input(t_data *dta, char **envp)
 {
 	int	incpy;
 
@@ -46,7 +46,7 @@ void	exec_redir_input(t_data *dta)
 	else
 		dta->file = open(dta->str[0], O_TRUNC | O_WRONLY, (S_IRUSR | S_IWUSR));
 	dta->cmd1 = ft_splitt(dta->rredi[0], ' ');
-	search_path(dta);
+	search_path(dta, envp);
 	if (access(dta->cmd1[0], X_OK) == -1)
 		perror("Command not found ");
 	else
@@ -61,7 +61,7 @@ void	exec_redir_input(t_data *dta)
 	return ;
 }
 
-void	handl_redirect_input2(t_data *dta)
+void	handl_redirect_input2(t_data *dta, char **envp)
 {
 	if (count_redir(dta->exec[0], '<'))
 	{
@@ -69,6 +69,6 @@ void	handl_redirect_input2(t_data *dta)
 		dta->str = ft_splitt(dta->rredi[1], ' ');
 		if (dta->str[1] != NULL)
 			regroup_cmd_args_input(dta);
-		exec_redir_input(dta);
+		exec_redir_input(dta, envp);
 	}
 }

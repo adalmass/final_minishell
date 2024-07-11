@@ -6,13 +6,13 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:32 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/09 16:39:11 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/11 19:20:45 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_export(t_data *dta)
+void	ft_export(t_data *dta, char **envp)
 {
 	int	i;
 
@@ -21,10 +21,10 @@ void	ft_export(t_data *dta)
 	{
 		if (dta->read[1] == NULL)
 		{
-			while (dta->cpy_envp[i])
+			while (envp[i])
 			{
 				printf("%s", "declare -x ");
-				printf("%s\n", dta->cpy_envp[i]);
+				printf("%s\n", envp[i]);
 				i++;
 			}
 		}
@@ -67,7 +67,7 @@ void	ft_export3(t_data *dta, int y)
 		dta->cpy_envp[i] = ft_strdupp(dta->cpy_cpy[i]);
 }
 
-void	ft_unset(t_data *dta)
+void	ft_unset(t_data *dta, char **envp)
 {
 	int	i;
 	int	j;
@@ -80,7 +80,7 @@ void	ft_unset(t_data *dta)
 		{
 			while (dta->read[1][j])
 				j++;
-			while (dta->cpy_envp[i])
+			while (envp[i])
 			{
 				if (ft_strncmpp(dta->cpy_envp[i], dta->read[1], j) == 0
 					&& dta->cpy_envp[i][j] == 0)

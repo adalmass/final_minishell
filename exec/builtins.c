@@ -6,23 +6,22 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:21 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/09 16:35:24 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/11 18:20:36 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_env(t_data *dta)
+void	print_env(t_data *dta, char **envp)
 {
 	int	i;
 
 	i = 0;
-	if ((ft_strncmpp(dta->read[0], "env", 3) == 0) && dta->read[1] == 0
-		&& dta->read[0][3] == 0)
+	if ((ft_strncmpp(dta->read[0], "env\0", 4) == 0) && dta->read[1] == 0)
 	{
-		while (dta->cpy_envp[i])
+		while (envp[i])
 		{
-			printf("%s\n", dta->cpy_envp[i]);
+			printf("%s\n", envp[i]);
 			i++;
 		}
 	}
@@ -30,7 +29,7 @@ void	print_env(t_data *dta)
 
 void	print_echo(t_data *dta)
 {
-	if ((ft_strncmpp(dta->read[0], "echo", 5) == 0)
+	if ((ft_strncmpp(dta->read[0], "echo\0", 5) == 0)
 		&& dta->read[1] != 0)
 	{
 		if (ft_strncmpp(dta->read[1], "-n", 2) == 0)

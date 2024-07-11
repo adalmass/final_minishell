@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 11:27:26 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/10 15:26:47 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/11 20:04:29 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,31 +51,19 @@ void	rregroup_cmd_args(t_data *dta)
 
 void	handl_rredirect(t_data *dta)
 {
-	int	i;
-	int	len;
-
-	i = 0;
-	len = 0;
-	while (dta->exec[len])
-		len++;
-	while (i < len)
+	if (count_rredir(dta->exec[0], '<'))
 	{
-		if (count_rredir(dta->exec[i], '<'))
-		{
-			dta->rredi = ft_splitt(dta->exec[i], '<');
-			dta->str = ft_splitt(dta->rredi[1], ' ');
-			if (dta->str[1] != NULL)
-				rregroup_cmd_args(dta);
-			prompt_redirect4(dta);
-		}
-		i++;
+		dta->str = ft_splitt(dta->rredi[1], ' ');
+		if (dta->str[1] != NULL)
+			rregroup_cmd_args(dta);
+		prompt_redirect4(dta);
 	}
 }
 
-void	exec_rredirect3(t_data *dta)
+void	exec_rredirect3(t_data *dta, char **envp)
 {
 	dta->cmd1 = ft_splitt(dta->rredi[0], ' ');
-	search_path(dta);
+	search_path(dta, envp);
 	execute_solo(dta->cmd1, dta->envp);
 	waitpid(-1, NULL, 0);
 }

@@ -6,24 +6,29 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:37:14 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/10 15:56:25 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/11 20:08:38 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    handl_redirect3(t_data *dta, int i)
+void    happend_or_not(t_data *dta, int i, char **envp)
 {
-	if (count_redir(dta->exec[i], '>') == 2)
-	{
-		dta->str = ft_splitt(dta->redi[1], ' ');
-		if (dta->str[1] != NULL)
-			regroup_cmd_args(dta);
-		exec_redir2(dta);
-	}
+    if (count_redir(dta->exec[i], '>') == 1)
+    {
+        if (dta->str[1] != NULL)
+            regroup_cmd_args(dta);
+        exec_redir(dta, envp);
+    }
+    if (count_redir(dta->exec[i], '>') == 2)
+    {
+        if (dta->str[1] != NULL)
+            regroup_cmd_args(dta);
+        exec_redir2(dta, envp);  
+    }
 }
 
-void	exec_redir2(t_data *dta)
+void	exec_redir2(t_data *dta, char **envp)
 {
 	int	outcpy;
 
@@ -33,7 +38,7 @@ void	exec_redir2(t_data *dta)
 		dta->file = open(dta->str[0], O_WRONLY, O_CREAT ,O_APPEND,
                 (S_IRUSR | S_IWUSR));
 		dta->cmd1 = ft_splitt(dta->redi[0], ' ');
-		search_path(dta);
+		search_path(dta, envp);
 		if (access(dta->cmd1[0], X_OK) == -1)
 		{
 			g_exit_status = 127;

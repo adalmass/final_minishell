@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:38 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/10 15:45:07 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/11 20:09:07 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	regroup_cmd_args(t_data *dta)
 	dta->redi[0] = ft_strjoin_freee(dta->redi[0], dta->redi[1]);
 }
 
-void	exec_redir(t_data *dta)
+void	exec_redir(t_data *dta, char **envp)
 {
 	int	outcpy;
 
@@ -59,7 +59,7 @@ void	exec_redir(t_data *dta)
 		dta->file = open(dta->str[0], O_TRUNC | O_CREAT | O_WRONLY,
 				(S_IRUSR | S_IWUSR));
 		dta->cmd1 = ft_splitt(dta->redi[0], ' ');
-		search_path(dta);
+		search_path(dta, envp);
 		if (access(dta->cmd1[0], X_OK) == -1)
 		{
 			g_exit_status = 127;
@@ -78,7 +78,7 @@ void	exec_redir(t_data *dta)
 	return ;
 }
 
-void	handl_redirect(t_data *dta)
+void	handl_redirect(t_data *dta, char **envp)
 {
 	
 	int	i;
@@ -92,18 +92,13 @@ void	handl_redirect(t_data *dta)
 	{
 		while (i < len)
 		{
-			if (count_redir(dta->exec[i], '>') == 1)
-			{
-				if (dta->str[1] != NULL)
-					regroup_cmd_args(dta);
-				exec_redir(dta);
-			}
+			happend_or_not(dta, i, envp);
 			i++;
 		}
 	}
 }
 
-void	handl_redirect2(t_data  *dta)
+void	handl_redirect2(t_data  *dta, char **envp)
 {
 	if (dta->exec[1] == 0)
 	{
@@ -113,7 +108,7 @@ void	handl_redirect2(t_data  *dta)
 			dta->str = ft_splitt(dta->redi[1], ' ');
 			if(dta->str[1] != NULL)
 				regroup_cmd_args(dta);
-			exec_redir(dta);
+			exec_redir(dta, envp);
 		}
 		if (count_redir(dta->exec[0], '>') == 2)
 		{
@@ -121,7 +116,7 @@ void	handl_redirect2(t_data  *dta)
 			dta->str = ft_splitt(dta->redi[1], ' ');
 			if(dta->str[1] != NULL)
 				regroup_cmd_args(dta);
-			exec_redir2(dta);
+			exec_redir2(dta, envp);
 		}
 	}
 }

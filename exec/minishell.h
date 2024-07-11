@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:01:03 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/10 15:38:50 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/11 22:22:19 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # include <string.h>
 # include <strings.h>
 # include <stdint.h>
+# include "../parsing/parsing.h"
 
 typedef struct s_data
 {
@@ -63,7 +64,7 @@ typedef struct s_data
 extern int	g_exit_status;
 
 // BUILTINS :
-void	print_env(t_data *dta);
+void	print_env(t_data *dta, char **envp);
 int		check_echo_n(t_data *dta);
 int		check_echo_n2(t_data *dta, int i);
 void	print_echo(t_data *dta);
@@ -74,44 +75,47 @@ void	print_pwd(t_data *dta);
 void	ft_exit(t_data *dta);
 void	ft_exit2(t_data *dta);
 int		ft_cd(t_data *dta);
-void	ft_export(t_data *dta);
+void	ft_export(t_data *dta, char **envp);
 void	ft_export2(t_data *dta);
 void	ft_export3(t_data *dta, int y);
 int		check_export(t_data *dta, int y);
-void	ft_unset(t_data *dta);
+void	ft_unset(t_data *dta, char **envp);
 // SIGNAUX :
 void	handl_signals(int signum);
 void	handl_prompt(void);
 // GESTION DE PATH COMMANDE :
 void	handl_env(t_data *dta, char **envp);
-void	search_path(t_data *dta);
+void	search_path(t_data *dta, char **envp);
 // EXEC COMMANDE :
-void	take_exec(t_data *dta);
+void	take_exec(t_data *dta, char **envp);
 void	execute_solo(char **cmd, char **envp);
 // GESTION DE RPOMPT :
 void	custom(void);
 void	handl_prompt(void);
 // MULTI PIPE ;
 void	multi_pipe(t_data *dta, char **envp);
-void 	handl_multi_pipe(t_data *dta, char **envp, int in_fd);
+void	handl_multi_pipe(t_data *dta, char **envp, int in_fd);
 void	exec_cmd(t_data *dta, char **envp, int in_fd, int out_fd);
 void	execute_multi(char **cmd, char **envp);
-void	check_input_output(int in_fd, int out_fd);
-void	init_cmd_multi(t_data *dta);
-int		check_multi_redir(t_data *dta);
+int		check_multi_redir_happend(t_data *dta);
+void	init_cmd_multi(t_data *dta, char **envp);
+void	check_multi_redir(t_data *dta);
 int		check_multi_rredir(t_data *dta);
 void	handl_last_cmd(t_data *dta, int in_fd, char **envp);
 // UTILS :
+void	handl_input_output(int incpy, int outcpy);
 int		check_file(t_data *dta);
 void	init_struct_dta(t_data *dta);
 char	*ft_strjoin_freee(char *stock, char *temp);
 char	*ft_strjoin_space(const char *s1, const char *s2);
 char	**ft_splitt(char const *s, char c);
-char	*ft_strtrim(char const *s1, char const *set);
+char	*ft_strtrim(char *s, char *c);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	*ft_calloc(size_t count, size_t size);
 int		ft_strncmpp(const char*s1, const char *s2, size_t n);
 size_t	ft_strlenn(const char *str);
+int 	len_read(char **tab, int i);
+int 	len_cmd(char **tab);
 char	*ft_strchrr(const char *s, int c);
 char	*ft_strdupp(const char *s1);
 int		ft_atoi(const char *str);
@@ -132,28 +136,29 @@ void	take_var2(t_data *dta, int z);
 void	check_redirect(t_data *dta);
 void	check_redirect2(t_data *dta);
 void	check_redirect3(t_data *dta);
-void	handl_redirect(t_data *dta);
-void	handl_redirect2(t_data *dta);
+void	handl_redirect(t_data *dta, char **envp);
+void	handl_redirect2(t_data *dta, char **envp);
 void	init_struct_redi(t_data *dta, char **envp);
 void	regroup_cmd_args(t_data *dta);
 int		count_redir(char *str, char redir);
-void	exec_redir2(t_data *dta);
-void	handl_redirect3(t_data *dta, int i);
+void	happend_or_not(t_data *dta, int i, char **envp);
+void	exec_redir2(t_data *dta, char **envp);
+void	exec_redir(t_data *dta, char **envp);
 // GESTION DE REVERSE REDIRECTION :
-void	check_reverse_redirect(t_data *dta);
-void	handl_redirect_input2(t_data *dta);
-void	exec_redir_input(t_data *dta);
+void	check_reverse_redirect(t_data *dta, char **envp);
+void	handl_redirect_input2(t_data *dta, char **envp);
+void	exec_redir_input(t_data *dta, char **envp);
 void	regroup_cmd_args_input(t_data *dta);
 void	handl_rredirect(t_data *dta);
 void	prompt_rredirect(t_data *dta);
-void	prompt_redirect4(t_data *dta);
+void	prompt_redirect4(t_data *dta, char **envp);
 void	reverse_redirect(t_data *dta);
-void	exec_rredirect3(t_data *dta);
+void	exec_rredirect3(t_data *dta, char **envp);
 void	rregroup_cmd_args(t_data *dta);
 // GESTION DU SHELL :
 void	handl_exec(t_data *dta, char **envp);
 void	handl_exec2(t_data *dta, char **envp);
 void	handl_exec3(t_data *dta, char **envp);
-void	handl_exec4(t_data *dta);
+void	handl_exec4(t_data *dta, char **envp);
 
 #endif

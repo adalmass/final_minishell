@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:40 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/09 20:13:29 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/11 22:03:46 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	handl_env(t_data *dta, char **envp)
 	i = 0;
 	while (envp[i])
 		i++;
-	dta->cpy_envp = ft_calloc(i + 1, sizeof(char *));
+	dta->cpy_envp = malloc(sizeof(char *) * i);
 	i = 0;
 	while (envp[i])
 	{
@@ -30,32 +30,41 @@ void	handl_env(t_data *dta, char **envp)
 
 void	init_struct_redi(t_data *dta, char **envp)
 {
-	int	i;
-
-	i = 0;
 	if (dta->exec[1] != 0)
 		multi_pipe(dta, envp);
 	if (dta->exec[1] == 0)
 	{
-		dta->rredi = ft_splitt(dta->exec[i], '<');
-		dta->redi = ft_splitt(dta->exec[i], '>');
-		handl_exec4(dta);
+		// if (dta->rredi)
+		// 	free_double_tab(dta->rredi);
+		// if (dta->redi)
+		// 	free_double_tab(dta->redi);
+		// if(dta->str)
+		// 	free_double_tab(dta->str);
+		dta->rredi = ft_splitt(dta->exec[0], '<');
+		dta->redi = ft_splitt(dta->exec[0], '>');
+		handl_exec4(dta, envp);
+		if (dta->rredi)
+			free_double_tab(dta->rredi);
+		if (dta->redi)
+			free_double_tab(dta->redi);
+		if(dta->str)
+			free_double_tab(dta->str);
 	}
 }
 
-void	handl_exec4(t_data *dta)
+void	handl_exec4(t_data *dta, char **envp)
 {
 	if ((dta->rredi[1] != 0) && dta->exec[1] == 0)
-		check_reverse_redirect(dta);
+		check_reverse_redirect(dta, envp);
 	else if ((dta->redi[1] != 0) && dta->exec[1] == 0)
-		handl_redirect2(dta);
+		handl_redirect2(dta, envp);
 	else if ((ft_strncmpp(&dta->read[0][0], ">", 1) == 0)
 		|| dta->redi[1] != 0)
 		check_redirect(dta);
 	else if (ft_strncmpp(&dta->read[0][0], "<", 1) == 0)
 		reverse_redirect(dta);
 	else
-		take_exec(dta);
+		take_exec(dta, envp);
 }
 
 void	handl_prompt(void)

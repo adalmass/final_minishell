@@ -6,13 +6,13 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:24:28 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/10 15:22:08 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/10 21:28:19 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    execute_multi(char **cmd, char **envp)
+void	execute_multi(char **cmd, char **envp)
 {
 	if (execve(cmd[0], cmd, envp) == -1)
 	{
@@ -23,15 +23,15 @@ void    execute_multi(char **cmd, char **envp)
 		g_exit_status = 0;
 }
 
-void    handl_cmd(t_data *dta, int in_fd, char **envp)
+void	handl_cmd(t_data *dta, int in_fd, char **envp)
 {
 	close(dta->pipe_fd[0]);
-	if (check_multi_redir(dta) == 0
+	if (check_multi_redir_happend(dta) == 0
 		&& check_multi_rredir(dta) == 0)
 	{
 		exec_cmd(dta, envp, in_fd, dta->pipe_fd[1]);
 	}
-	else if (check_multi_redir(dta) == 1)
+	else if (check_multi_redir_happend(dta) == 1)
 	{
 		exec_cmd(dta, envp, in_fd, dta->file);
 		close(dta->file);
@@ -43,12 +43,12 @@ void    handl_cmd(t_data *dta, int in_fd, char **envp)
 	}
 }
 
-void    handl_last_cmd(t_data *dta, int in_fd, char **envp)
+void	handl_last_cmd(t_data *dta, int in_fd, char **envp)
 {
-	if (check_multi_redir(dta) == 0
+	if (check_multi_redir_happend(dta) == 0
 		&& check_multi_rredir(dta) == 0)
-		exec_cmd(dta, envp, in_fd, STDOUT_FILENO);
-	else if (check_multi_redir(dta) == 1)
+			exec_cmd(dta, envp, in_fd, STDOUT_FILENO);
+	else if (check_multi_redir_happend(dta) == 1)
 	{
 		exec_cmd(dta, envp, in_fd, dta->file);
 		close(dta->file);
@@ -60,17 +60,18 @@ void    handl_last_cmd(t_data *dta, int in_fd, char **envp)
 	}
 	close(in_fd);
 }
-void 	handl_multi_pipe(t_data *dta, char **envp, int in_fd)
+
+void	handl_multi_pipe(t_data *dta, char **envp, int in_fd)
 {
 	while (dta->exec[dta->nb_pipe])
 		dta->nb_pipe++;
-	while (dta->idx < dta->nb_pipe - 1) 
+	while (dta->idx < dta->nb_pipe - 1)
 	{
 		if (pipe(dta->pipe_fd) == -1)
 			perror(RED "fork" RESET);
 		if ((dta->pid = fork()) == -1)
 			perror(RED "fork" RESET);
-		if (dta->pid == 0) 
+		if (dta->pid == 0)
 			handl_cmd(dta, in_fd, envp);
 		else
 		{
@@ -81,16 +82,16 @@ void 	handl_multi_pipe(t_data *dta, char **envp, int in_fd)
 		}
 		dta->idx++;
 	}
-	if ((dta->pid = fork()) == -1) 
+	if ((dta->pid = fork()) == -1)
 		perror(RED "fork" RESET);
 	if (dta->pid == 0)
-		handl_last_cmd(dta, in_fd, envp);	
+		handl_last_cmd(dta, in_fd, envp);
 }
 
-void	multi_pipe(t_data *dta, char **envp) 
+void	multi_pipe(t_data *dta, char **envp)
 {
-	int in_fd;
-	int out_fd;
+	int	in_fd;
+	int	out_fd;
 
 	in_fd = STDIN_FILENO;
 	dta->idx = 0;
@@ -105,5 +106,4 @@ void	multi_pipe(t_data *dta, char **envp)
 	close(out_fd);
 	dta->idx = 0;
 	dta->nb_pipe = 0;
-	return ;
 }
