@@ -37,17 +37,16 @@
 
 typedef struct s_parse
 {
+	int			count;
 	int			error_found;
 	int			space_found;
 	int			echo_found;
-	int			count;
 	int			idx_start_quote;
 	int			idx_end_quote;
 	int			len_cmd_line;
 	int			pipe_number;
 	int			space_number;
 	int			pipe_count;
-	int			double_quote;
 	int			redir_l_count;
 	int			cmdtab_redir_l;
 	int			cmdtab_redir_r;
@@ -61,15 +60,13 @@ typedef struct s_parse
 
 // --- main.c
 int		only_space(char *s);
+void	cmdtable_to_exec(t_parse *p, t_data *dta);
 
 // --- parsing.c
 int		parsing(t_parse *p);
 void	create_cmds_table(t_parse *p);
 int		is_redir(char c);
 void	check_cmdtable_error(t_parse *p);
-
-// --- parsing2.c
-int		parsing(t_parse *p);
 
 // --- check_cmd.c
 void	error_redirection(t_parse *p);
@@ -91,7 +88,7 @@ void	pipe_found(t_parse *p, char next_char);
 void	remove_quotes(t_parse *p, int idx_cmd);
 
 // --- redir_n_pipe.c
-int	find_redir(t_parse *p, char *cmd, int echo_found);
+int		find_redir(t_parse *p, char *cmd, int echo_found);
 void	redir_left_found(t_parse *p, char c);
 void	redir_right_found(t_parse *p, char next_char);
 void	pipe_found(t_parse *p, char next_char);

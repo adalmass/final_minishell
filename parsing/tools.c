@@ -23,28 +23,26 @@ void	parse_error(t_parse *p, char *error_msg)
 	ft_putstr_fd(error_msg, 2);
 	ft_putstr_fd("\n", 2);
 	init_struct(p);
+	exit (0);
 }
 
 void	init_struct(t_parse *p)
 {
 	p->count = 0;
-	p->len_cmd_line = 0;
 	p->space_found = 0;
 	p->echo_found = 0;
+	p->idx_start_quote = 0;
+	p->idx_end_quote = 0;
+	p->len_cmd_line = 0;
+	p->pipe_number = 0;
+	p->space_number = 0;
+	p->pipe_count = 0;
 	p->redir_l_count = 0;
 	p->redir_r_count = 0;
 	p->cmdtab_redir_l = 0;
 	p->cmdtab_redir_r = 0;
-	p->pipe_number = 0;
-	p->pipe_count = 0;
-	p->idx_start_quote = 0;
-	p->idx_end_quote = 0;
 	p->sub_start = 0;
 	p->sub_end = 0;
-	p->space_number = 0;
-	p->space_number = 0;
-	p->cmd_table = NULL;
-	p->splitted_built = NULL;
 }
 
 void	free_double_tab(char **tab)
