@@ -60,19 +60,18 @@ typedef struct s_parse
 
 // --- main.c
 int		only_space(char *s);
-void	cmdtable_to_exec(t_parse *p, t_data *dta);
 
 // --- parsing.c
 int		parsing(t_parse *p);
 void	create_cmds_table(t_parse *p);
-int		is_redir(char c);
 void	check_cmdtable_error(t_parse *p);
 
 // --- check_cmd.c
 void	error_redirection(t_parse *p);
 int		error_pipe(t_parse *p);
-void	check_redir(t_parse *p, char *cmd);
+int		check_redir(t_parse *p, char *cmd);
 void	check_all_errors(t_parse *p);
+void	check_redir2(t_parse *p, char *cmd);
 
 // --- remove_quotes.c
 int		check_quotes_closed(t_parse *p, char quote);

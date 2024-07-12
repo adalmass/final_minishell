@@ -23,7 +23,6 @@ void	parse_error(t_parse *p, char *error_msg)
 	ft_putstr_fd(error_msg, 2);
 	ft_putstr_fd("\n", 2);
 	init_struct(p);
-	exit (0);
 }
 
 void	init_struct(t_parse *p)
@@ -55,10 +54,14 @@ void	free_double_tab(char **tab)
 		while (tab[y] != NULL)
 		{
 			if (tab[y])
+			{
 				free (tab[y]);
+				tab[y] = NULL;
+			}
 			y++;
 		}
 		free (tab);
+		tab = NULL;
 	}
 }
 

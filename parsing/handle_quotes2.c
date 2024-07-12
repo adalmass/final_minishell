@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 22:13:53 by aldalmas          #+#    #+#             */
-/*   Updated: 2024/07/10 22:30:30 by aldalmas         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:20:21 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void	modify_splitted_built(t_parse *p, int y)
 	temp = NULL;
 	if (search_quote(p->splitted_built[y]))
 	{
-		printf("debug: %s\n", p->splitted_built[y]);
 		if (p->splitted_built[y][0] == '\'')
 			temp = trim_quotes(p->splitted_built[y], '\'');
 		else if (p->splitted_built[y][0] == '\"')

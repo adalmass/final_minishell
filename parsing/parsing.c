@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 15:24:51 by aldalmas          #+#    #+#             */
-/*   Updated: 2024/07/10 17:40:24 by aldalmas         ###   ########.fr       */
+/*   Updated: 2024/07/12 15:46:45 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ void	check_cmdtable_error(t_parse *p)
 		handle_quotes(p, y);
 		if (p->error_found == 1)
 			return ;
-		check_redir(p, p->cmd_table[y]);
+		if (!check_redir(p, p->cmd_table[y]))
+			return ;
 		p->space_found = 0;
 		y++;
 	}

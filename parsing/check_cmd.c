@@ -56,19 +56,50 @@ void	redir_last_char(t_parse *p, char *cmd)
 	}
 }
 
-void	check_redir(t_parse *p, char *cmd)
+int	check_redir(t_parse *p, char *cmd)
 {
 	int	i;
 
 	i = 0;
 	while (cmd[i])
 	{
-		if (cmd[i] != '>' && cmd[i] != '<')
+		if (cmd[i] == '>' || cmd[i] == '<')
+		{
+			i++;
+			if(cmd[i] == ' ')
+			{
+				while (cmd[i] && cmd[i] == ' ')
+					i++;
+				if (cmd[i] == '>' || cmd[i] == '<')
+				{
+					parse_error(p, RED "syntax error near redirection" RESET);
+					return (0);
+				}
+			}
+		}
+		i++;
+	}
+	check_redir2(p, cmd);
+	return (1);
+}
+
+void	check_redir2(t_parse *p, char *cmd)
+{
+	int	i;
+
+	i = 0;
+	while (cmd[i])
+	{
+		if (cmd[i] != '>' && cmd[i] != '<' && cmd[i] != ' ')
 		{
 			p->cmdtab_redir_l = 0;
 			p->cmdtab_redir_r = 0;
 		}
 		if (cmd[i] == '>' && cmd[i + 1] == '<')
+			parse_error(p, RED "syntax error with `<'" RESET);
+		else if (cmd[i] == '<' && cmd[i + 1] == '>')
+			parse_error(p, RED "syntax error with `\\n'" RESET);
+		else if (cmd[i] == '<' && cmd[i + 1] == '<' && cmd[i + 2] == '<')
 			parse_error(p, RED "syntax error with `<'" RESET);
 		else if (cmd[i] == '<')
 			p->cmdtab_redir_l++;
