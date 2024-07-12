@@ -6,13 +6,13 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:32 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/11 19:20:45 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/12 18:28:14 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_export(t_data *dta, char **envp)
+void	ft_export(t_data *dta)
 {
 	int	i;
 
@@ -21,10 +21,10 @@ void	ft_export(t_data *dta, char **envp)
 	{
 		if (dta->read[1] == NULL)
 		{
-			while (envp[i])
+			while ( dta->cpy_envp[i])
 			{
 				printf("%s", "declare -x ");
-				printf("%s\n", envp[i]);
+				printf("%s\n", dta->cpy_envp[i]);
 				i++;
 			}
 		}
@@ -66,26 +66,38 @@ void	ft_export3(t_data *dta, int y)
 	while (dta->cpy_cpy[++i])
 		dta->cpy_envp[i] = ft_strdupp(dta->cpy_cpy[i]);
 }
+void 	ft_unset2(t_data *dta, int cmd)
+{
+	int i;
+	int j;
+	
+	i = 0;
+	j = 0;
+	while (dta->read[cmd][j])
+		j++;
+	while (dta->cpy_envp[i])
+	{
+		if (ft_strncmpp(dta->cpy_envp[i], dta->read[1], j) == 0
+			&& dta->cpy_envp[i][j] == 0)
+			dta->cpy_envp[i] = NULL;
+		i++;
+	}
+}
 
 void	ft_unset(t_data *dta, char **envp)
 {
-	int	i;
-	int	j;
+	int cmd;
+	(void) envp;
 
-	i = 0;
-	j = 0;
+	cmd = 1;
 	if ((ft_strncmpp(dta->read[0], "unset", 5) == 0) && dta->read[0][5] == 0)
 	{
-		if (dta->read[1] != NULL && dta->read[2] == NULL)
+		if (dta->read[1] != NULL)
 		{
-			while (dta->read[1][j])
-				j++;
-			while (envp[i])
+			while(dta->read[cmd])
 			{
-				if (ft_strncmpp(dta->cpy_envp[i], dta->read[1], j) == 0
-					&& dta->cpy_envp[i][j] == 0)
-					dta->cpy_envp[i] = NULL;
-				i++;
+				ft_unset2(dta, cmd);
+				cmd++;
 			}
 		}
 	}

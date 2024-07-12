@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:25 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/11 18:46:05 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/12 20:11:27 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void	ft_exit2(t_data *dta)
 		}
 		if (ft_isalphaa(dta->read[1]) == 1)
 		{
-			printf(RED "exit: %s: numeric argument required\n" RESET, dta->read[1]);
+			printf(RED"exit : "RESET);
+			printf(RED"%s: numeric argument required\n"RESET, dta->read[1]);
 			g_exit_status = 2;
 			exit(2);
 		}
@@ -87,7 +88,6 @@ void	print_pwd(t_data *dta)
 	{
 		if (getcwd(pwd, 404) != NULL)
 			printf("%s\n", pwd);
-		free_double_tab(dta->read);
 	}
 	free(pwd);
 }

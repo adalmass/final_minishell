@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:51 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/11 20:11:01 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/12 13:19:20 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void     check_reverse_redirect(t_data *dta, char **envp)
 		}
 		else if (dta->exec[0][j] == '<' && dta->exec[0][j + 1] == '<')
 		{			
-			handl_rredirect(dta);
+			handl_rredirect(dta, envp);
 			break ;
 		}
 		j++;

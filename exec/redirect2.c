@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:38 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/11 20:09:07 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/12 17:19:54 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ void	exec_redir(t_data *dta, char **envp)
 	if(dta->redi[1] != 0)
 	{
 		outcpy = dup(STDOUT_FILENO);
-		dta->file = open(dta->str[0], O_TRUNC | O_CREAT | O_WRONLY,
-				(S_IRUSR | S_IWUSR));
+		dta->file = open(dta->str[0], O_TRUNC | O_WRONLY | O_CREAT,
+				S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 		dta->cmd1 = ft_splitt(dta->redi[0], ' ');
 		search_path(dta, envp);
 		if (access(dta->cmd1[0], X_OK) == -1)

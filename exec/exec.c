@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:23:28 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/11 22:00:30 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/12 15:57:44 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,5 @@ void	take_exec(t_data *dta, char **envp)
 		execute_solo(dta->cmd1, dta->envp);
 	}
 	waitpid(-1, NULL, 0);
-	free_double_tab(dta->cmd1);
-	free_double_tab(dta->path);
+	return ;
 }

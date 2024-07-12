@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:21 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/11 18:20:36 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/12 14:48:16 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,15 @@
 
 void	print_env(t_data *dta, char **envp)
 {
+	(void) envp;
 	int	i;
 
 	i = 0;
 	if ((ft_strncmpp(dta->read[0], "env\0", 4) == 0) && dta->read[1] == 0)
 	{
-		while (envp[i])
+		while (dta->cpy_envp[i])
 		{
-			printf("%s\n", envp[i]);
+			printf("%s\n", dta->cpy_envp[i]);
 			i++;
 		}
 	}

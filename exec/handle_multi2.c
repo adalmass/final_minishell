@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:24:28 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/10 21:28:19 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/12 16:59:44 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ void	handl_last_cmd(t_data *dta, int in_fd, char **envp)
 {
 	if (check_multi_redir_happend(dta) == 0
 		&& check_multi_rredir(dta) == 0)
-			exec_cmd(dta, envp, in_fd, STDOUT_FILENO);
+	{
+		exec_cmd(dta, envp, in_fd, STDOUT_FILENO);
+	}
 	else if (check_multi_redir_happend(dta) == 1)
 	{
 		exec_cmd(dta, envp, in_fd, dta->file);

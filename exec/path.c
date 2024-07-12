@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:43 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/11 22:01:16 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/12 16:52:25 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,7 @@ void	search_path(t_data *dta, char **envp)
 	}
 	i = 0;
 	if (access(dta->cmd1[0], X_OK) == 0)
-	{
-		free_double_tab(dta->path);
 		return ;
-	}
 	while (dta->path[i])
 	{
 		path = ft_strjoin(dta->path[i], "/");
@@ -41,5 +38,4 @@ void	search_path(t_data *dta, char **envp)
 	}
 	free(dta->cmd1[0]);
 	dta->cmd1[0] = ft_strdupp(path);
-	free(path);
 }

@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:49:21 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/11 19:22:56 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/12 20:11:50 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,27 @@ void	handl_dollar(t_data *dta, int i, int len)
 		{
 			if (dta->read[i][1] == '?')
 			{
-				dollar_what(dta);
+				if (search_dollar(dta, i) == 0)
+					dollar_what(dta);
+				else
+					printf("%s ", dta->read[i]);
 				break ;
 			}
 			else if (search_dollar(dta, i) == 0)
 				take_var2(dta, i);
+			else
+				printf("%s ", dta->read[i]);
+
 		}
 		else
 			printf("%s ", dta->read[i]);
 		i++;
 	}
+	printf("\n");
 }
 
 void	handl_exec2(t_data *dta, char **envp)
 {
-	
 	int	i;
 	int	len;
 
@@ -63,7 +69,6 @@ void	handl_exec2(t_data *dta, char **envp)
 		else 
 		{
 			handl_dollar(dta, i, len);
-			printf("\n");
 			g_exit_status = 0;
 		}
 	}
@@ -78,7 +83,7 @@ void	handl_exec3(t_data *dta, char **envp)
 	else if (ft_strncmpp(dta->read[0], "exit", 5) == 0)
 		ft_exit(dta);
 	else if (ft_strncmpp(dta->read[0], "export", 7) == 0)
-		ft_export(dta, envp);
+		ft_export(dta);
 	else if (ft_strncmpp(dta->read[0], "unset", 6) == 0)
 		ft_unset(dta, envp);
 	else

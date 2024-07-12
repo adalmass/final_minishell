@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:40 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/11 22:03:46 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/12 16:51:19 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,35 +34,39 @@ void	init_struct_redi(t_data *dta, char **envp)
 		multi_pipe(dta, envp);
 	if (dta->exec[1] == 0)
 	{
-		// if (dta->rredi)
-		// 	free_double_tab(dta->rredi);
-		// if (dta->redi)
-		// 	free_double_tab(dta->redi);
-		// if(dta->str)
-		// 	free_double_tab(dta->str);
-		dta->rredi = ft_splitt(dta->exec[0], '<');
-		dta->redi = ft_splitt(dta->exec[0], '>');
+		if (count_redir(dta->exec[0], '>'))
+			dta->redi = ft_splitt(dta->exec[0], '>');
+		else if (count_redir(dta->exec[0], '<'))
+			dta->rredi = ft_splitt(dta->exec[0], '<');
 		handl_exec4(dta, envp);
-		if (dta->rredi)
-			free_double_tab(dta->rredi);
-		if (dta->redi)
-			free_double_tab(dta->redi);
-		if(dta->str)
-			free_double_tab(dta->str);
 	}
 }
 
 void	handl_exec4(t_data *dta, char **envp)
 {
-	if ((dta->rredi[1] != 0) && dta->exec[1] == 0)
-		check_reverse_redirect(dta, envp);
-	else if ((dta->redi[1] != 0) && dta->exec[1] == 0)
-		handl_redirect2(dta, envp);
-	else if ((ft_strncmpp(&dta->read[0][0], ">", 1) == 0)
-		|| dta->redi[1] != 0)
-		check_redirect(dta);
-	else if (ft_strncmpp(&dta->read[0][0], "<", 1) == 0)
-		reverse_redirect(dta);
+	if (count_redir(dta->exec[0], '<'))
+	{
+		if (ft_strncmpp(&dta->read[0][0], "<", 1) == 0)
+			reverse_redirect(dta);
+		else if ((dta->rredi[1] != 0) && dta->exec[1] == 0)
+			check_reverse_redirect(dta, envp);
+		if (dta->rredi)
+			free_double_tab(dta->rredi);
+		if(dta->str)
+			free_double_tab(dta->str);
+	}
+	else if (count_redir(dta->exec[0], '>'))
+	{
+		if ((dta->redi[1] != 0) && dta->exec[1] == 0)
+			handl_redirect2(dta, envp);
+		else if ((ft_strncmpp(&dta->read[0][0], ">", 1) == 0)
+			|| dta->redi[1] != 0)
+			check_redirect(dta);
+		if (dta->redi)
+			free_double_tab(dta->redi);
+		if(dta->str)
+			free_double_tab(dta->str);
+	}
 	else
 		take_exec(dta, envp);
 }

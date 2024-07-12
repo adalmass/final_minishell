@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 11:27:26 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/11 20:04:29 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/12 13:18:27 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ void	rregroup_cmd_args(t_data *dta)
 	dta->rredi[0] = ft_strjoin_freee(dta->rredi[0], dta->rredi[1]);
 }
 
-void	handl_rredirect(t_data *dta)
+void	handl_rredirect(t_data *dta, char **envp)
 {
 	if (count_rredir(dta->exec[0], '<'))
 	{
 		dta->str = ft_splitt(dta->rredi[1], ' ');
 		if (dta->str[1] != NULL)
 			rregroup_cmd_args(dta);
-		prompt_redirect4(dta);
+		prompt_redirect4(dta, envp);
 	}
 }
 

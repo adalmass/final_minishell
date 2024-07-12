@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:01:03 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/11 22:22:19 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/12 20:18:47 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_data
 	int		file;
 }	t_data;
 
+struct sigaction sa;
 extern int	g_exit_status;
 
 // BUILTINS :
@@ -75,7 +76,7 @@ void	print_pwd(t_data *dta);
 void	ft_exit(t_data *dta);
 void	ft_exit2(t_data *dta);
 int		ft_cd(t_data *dta);
-void	ft_export(t_data *dta, char **envp);
+void	ft_export(t_data *dta);
 void	ft_export2(t_data *dta);
 void	ft_export3(t_data *dta, int y);
 int		check_export(t_data *dta, int y);
@@ -149,7 +150,7 @@ void	check_reverse_redirect(t_data *dta, char **envp);
 void	handl_redirect_input2(t_data *dta, char **envp);
 void	exec_redir_input(t_data *dta, char **envp);
 void	regroup_cmd_args_input(t_data *dta);
-void	handl_rredirect(t_data *dta);
+void	handl_rredirect(t_data *dta, char **envp);
 void	prompt_rredirect(t_data *dta);
 void	prompt_redirect4(t_data *dta, char **envp);
 void	reverse_redirect(t_data *dta);
