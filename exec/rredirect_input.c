@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 13:09:35 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/11 20:10:01 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/13 21:03:40 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	exec_redir_input(t_data *dta, char **envp)
 		return ;
 	}
 	else
-		dta->file = open(dta->str[0], O_TRUNC | O_WRONLY, (S_IRUSR | S_IWUSR));
+		dta->file = open(dta->str[0], O_TRUNC | O_WRONLY,
+				S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	dta->cmd1 = ft_splitt(dta->rredi[0], ' ');
 	search_path(dta, envp);
 	if (access(dta->cmd1[0], X_OK) == -1)

@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:48 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/11 22:22:30 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/13 21:03:18 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	check_redirect(t_data *dta)
 		{
 			dta->redi[0] = ft_strtrim(dta->redi[0], " ");
 			dta->file = open(dta->redi[0], O_TRUNC | O_CREAT | O_WRONLY,
-					(S_IRUSR | S_IWUSR));
+					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 			close(dta->file);
 		}
 		else
@@ -58,7 +58,7 @@ void	check_redirect3(t_data *dta)
 			}
 			dta->redi[0] = ft_strtrim(dta->redi[0], " ");
 			dta->file = open(dta->redi[0], O_TRUNC | O_CREAT | O_WRONLY,
-					(S_IRUSR | S_IWUSR));
+					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 			close(dta->file);
 		}
 		else
@@ -77,14 +77,14 @@ void	check_redirect2(t_data *dta)
 		if (dta->read[0][1] != '>' && dta->read[0][2] != 0)
 		{
 			dta->file = open(dta->redi[0], O_TRUNC | O_CREAT | O_WRONLY,
-					(S_IRUSR | S_IWUSR));
+					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 			close(dta->file);
 		}
 		if ((ft_strncmpp(&dta->read[0][1], ">", 1) == 0)
 			&& dta->read[0][2] != 0)
 		{
 			dta->file = open(dta->redi[0], O_TRUNC | O_CREAT | O_WRONLY,
-					(S_IRUSR | S_IWUSR));
+					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 			close(dta->file);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:01:03 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/12 20:18:47 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/12 21:56:38 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ typedef struct s_data
 	int		file;
 }	t_data;
 
-struct sigaction sa;
 extern int	g_exit_status;
 
 // BUILTINS :
@@ -110,7 +109,7 @@ void	init_struct_dta(t_data *dta);
 char	*ft_strjoin_freee(char *stock, char *temp);
 char	*ft_strjoin_space(const char *s1, const char *s2);
 char	**ft_splitt(char const *s, char c);
-char	*ft_strtrim(char *s, char *c);
+char	*ft_strtrim(const char *s1, const char *set);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	*ft_calloc(size_t count, size_t size);
 int		ft_strncmpp(const char*s1, const char *s2, size_t n);
