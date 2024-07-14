@@ -6,7 +6,7 @@
 /*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 10:11:25 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/14 22:39:19 by aldalmas         ###   ########.fr       */
+/*   Updated: 2024/07/15 01:19:05 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int    main(int argc, char **argv, char **envp)
 			p.cmd_line = readline("\033[0;35mMINISHELL$>\033[0;37m");
 			if (!p.cmd_line)
 				exit (0);
-			dta->line = ft_strdup(p.cmd_line);
+			//dta->line = ft_strdup(p.cmd_line);
 			if (ft_strlen(p.cmd_line) > 0)
 			{
 				add_history(p.cmd_line);
@@ -98,10 +98,10 @@ int    main(int argc, char **argv, char **envp)
 					if (parsing(&p))
 					{
 						cmdtable_to_exec(&p, dta);
-						init_struct_dta(dta);
+						//init_struct_dta(dta, &p);
+						dta->read = ft_splitt(dta->exec[0], ' ');
+						dta->space = ft_splitt(p.cmd_line, ' ');
 						handl_exec(dta, envp);
-						if(dta->read)
-							free_double_tab(dta->read);
 						if(dta->exec)
 							free_double_tab(dta->exec);
 						if(dta->space)
