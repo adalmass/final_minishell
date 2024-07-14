@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 10:11:25 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/12 15:53:51 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/14 22:39:19 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int    main(int argc, char **argv, char **envp)
 	(void)  argv;
 	int		incpy;
 	int		outcpy;
-	
+
 	incpy = dup(STDIN_FILENO);
 	outcpy = dup(STDOUT_FILENO);
 	dta = malloc(sizeof(t_data));
@@ -106,16 +106,12 @@ int    main(int argc, char **argv, char **envp)
 							free_double_tab(dta->exec);
 						if(dta->space)
 							free_double_tab(dta->space);
-						// if(dta->rredi)
-						// 	free_double_tab(dta->rredi);
-						// if(dta->redi)
-						// 	free_double_tab(dta->redi);
 					}
 				}
 			}
 			handl_input_output(incpy, outcpy);
 			if (p.cmd_line)
-				free(p.cmd_line);
+				free (p.cmd_line);
 		}
 	}
 }
