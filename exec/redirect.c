@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:48 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/13 21:03:18 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/14 19:44:46 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,22 @@ int	check_file(t_data *dta)
 
 void	check_redirect(t_data *dta)
 {
+	char *temp;
+
 	if (dta->read[0][0] == '>' && dta->read[0][1] == '>')
 	{
 		if (dta->read[0][2] != 0 || dta->read[1] != 0)
 		{
-			dta->redi[0] = ft_strtrim(dta->redi[0], " ");
+			temp = ft_strtrim(dta->redi[0], " ");
+			free (dta->redi[0]);
+			//free_double_tab(dta->redi);
+			//dta->redi = ft_splitt(dta->exec[0], '>');
 			dta->file = open(dta->redi[0], O_TRUNC | O_CREAT | O_WRONLY,
-					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+					S_IRUSR | S_IWUSR);
 			close(dta->file);
+			dta->redi[0] = temp;
+			free (temp);
+			printf(YELLOW "ICI\n" RESET);
 		}
 		else
 		{
@@ -41,7 +49,8 @@ void	check_redirect(t_data *dta)
 			printf("syntax error near unexpected token `newline'\n");
 		}
 	}
-	check_redirect3(dta);
+	else
+		check_redirect3(dta);
 }
 
 void	check_redirect3(t_data *dta)
@@ -53,7 +62,7 @@ void	check_redirect3(t_data *dta)
 			if (ft_strncmpp(&dta->read[1][0], ">", 1) == 0)
 			{
 				g_exit_status = 2;
-				printf("%s\n", "syntaxe error near unexpected token '>'");
+				printf("%s\n", "syntax error near unexpected token '>'");
 				return ;
 			}
 			dta->redi[0] = ft_strtrim(dta->redi[0], " ");
@@ -67,7 +76,8 @@ void	check_redirect3(t_data *dta)
 			printf("syntax error near unexpected token `newline'\n");
 		}
 	}
-	check_redirect2(dta);
+	else
+		check_redirect2(dta);
 }
 
 void	check_redirect2(t_data *dta)

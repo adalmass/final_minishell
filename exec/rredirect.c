@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rredirect.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:51 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/12 13:19:20 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/14 19:54:47 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ void	prompt_redirect4(t_data *dta, char **envp)
 	lenn = ft_strlenn(dta->str[0]) + 1;
 	while (limit_found == 0)
 	{
+		if (temp)
+			free (temp);
 		temp = readline("> ");
 		if (!temp)
 			return ;

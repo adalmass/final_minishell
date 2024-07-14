@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:23:28 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/12 15:57:44 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/14 22:47:15 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,9 @@ void	take_exec(t_data *dta, char **envp)
 	else
 	{
 		g_exit_status = 0;
-		execute_solo(dta->cmd1, dta->envp);
+		execute_solo(dta->cmd1, envp);
 	}
 	waitpid(-1, NULL, 0);
+	free_double_tab(dta->cmd1);
 	return ;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:21 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/12 14:48:16 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/14 15:17:03 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	print_env(t_data *dta, char **envp)
 			printf("%s\n", dta->cpy_envp[i]);
 			i++;
 		}
+		g_exit_status = 0;
 	}
 }
 
@@ -40,6 +41,7 @@ void	print_echo(t_data *dta)
 			else if (check_echo_n(dta) == 1)
 				print_echo3(dta);
 		}
+		g_exit_status = 0;
 	}
 }
 

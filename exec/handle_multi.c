@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_multi.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:23:21 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/12 17:41:43 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/14 22:52:55 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,33 @@ void	exec_cmd(t_data *dta, char **envp, int in_fd, int out_fd)
 	}
 	init_cmd_multi(dta, envp);
 	execute_multi(dta->cmd1, envp);
+	free_double_tab(dta->cmd1);
 }
+
 void	check_multi_redir(t_data *dta)
 {
+	char	*temp;
+
 	dta->redi = ft_splitt(dta->exec[dta->idx], '>');
-	dta->redi[1] = ft_strtrim(dta->redi[1], " ");
+	temp = ft_strtrim(dta->redi[1], " ");
+	free (dta->redi[1]);
+	dta->redi[1] = temp;
 	dta->file = open(dta->redi[1], O_TRUNC | O_CREAT | O_WRONLY,
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+	free (temp);
+}
+
+void	check_multi_redir_happend2(t_data *dta)
+{
+	char	*temp;
+	
+	dta->redi = ft_splitt(dta->exec[dta->idx], '>');
+	temp = ft_strtrim(dta->redi[1], " ");
+	free (dta->redi[1]);
+	dta->file = open(temp, O_WRONLY | O_CREAT |
+			O_APPEND, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+	dta->redi[1] = temp;
+	free (temp);
 }
 
 int	check_multi_redir_happend(t_data *dta)
@@ -68,10 +88,7 @@ int	check_multi_redir_happend(t_data *dta)
 		{
 			if (dta->exec[dta->idx][j + 1] == '>')
 			{
-				dta->redi = ft_splitt(dta->exec[dta->idx], '>');
-				dta->redi[1] = ft_strtrim(dta->redi[1], " ");
-				dta->file = open(dta->redi[1], O_WRONLY | O_CREAT |
-						O_APPEND, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+				check_multi_redir_happend2(dta);
 				return (1);
 				
 			}

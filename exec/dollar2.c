@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:26:26 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/11 16:28:54 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/14 17:08:31 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	dollar_what2(t_data *dta, int j, int len, int i)
 
 void	dollar_what(t_data *dta)
 {
+	
 	int	i;
 	int	j;
 	int	len;
@@ -40,7 +41,13 @@ void	dollar_what(t_data *dta)
 		{
 			j = 2;
 			if (dta->read[i][j] == 0)
-				printf("%d ", g_exit_status);
+			{
+				if(dta->exit == 127)
+					printf("%d ", dta->exit);
+				else
+					printf("%d ", g_exit_status);
+			}
+			
 			else if (dta->read[i][j] != 0)
 				dollar_what2(dta, j, len, i);	
 		}

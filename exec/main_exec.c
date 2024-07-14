@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:40 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/14 18:30:57 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/14 18:09:59 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	handl_env(t_data *dta, char **envp)
 
 void	init_struct_redi(t_data *dta, char **envp)
 {
-	if (dta->exec[1] != 0)	
+	if (dta->exec[1] != 0)
 		multi_pipe(dta, envp);
 	if (dta->exec[1] == 0)
 	{
@@ -50,10 +50,6 @@ void	handl_exec4(t_data *dta, char **envp)
 			reverse_redirect(dta);
 		else if ((dta->rredi[1] != 0) && dta->exec[1] == 0)
 			check_reverse_redirect(dta, envp);
-		if (dta->rredi)
-			free_double_tab(dta->rredi);
-		if(dta->str)
-			free_double_tab(dta->str);
 	}
 	else if (count_redir(dta->exec[0], '>'))
 	{
@@ -62,10 +58,6 @@ void	handl_exec4(t_data *dta, char **envp)
 		else if ((ft_strncmpp(&dta->read[0][0], ">", 1) == 0)
 			|| dta->redi[1] != 0)
 			check_redirect(dta);
-		if (dta->redi)
-			free_double_tab(dta->redi);
-		if(dta->str)
-			free_double_tab(dta->str);
 	}
 	else
 		take_exec(dta, envp);

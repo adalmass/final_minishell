@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_replace.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 16:03:01 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/09 16:44:04 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/14 20:28:59 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,12 @@ int	check_export(t_data *dta, int cmd)
 		len_read++;
 	while (dta->cpy_envp[y])
 	{
-		if (ft_strncmpp(dta->cpy_envp[y], dta->read[cmd], len_read) == 0)
+		if (ft_strncmpp(dta->cpy_envp[y], dta->read[cmd], len_read + 1) == 0)
 		{
 			if (dta->read[cmd][len_read] == '\0')
 				return (1);
-			free (dta->cpy_envp[y]);
+			if (dta->cpy_envp[y])
+				free (dta->cpy_envp[y]);
 			dta->cpy_envp[y] = ft_strdupp(dta->read[cmd]);
 			return (1);
 		}

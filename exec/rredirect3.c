@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rredirect3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 11:27:26 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/12 13:18:27 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/14 19:52:56 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,24 @@ void	rregroup_cmd_args(t_data *dta)
 {
 	int		i;
 	char	*temp;
+	char	*temp2;
 
 	i = 0;
 	temp = ft_strtrim(dta->rredi[1], " ");
-	dta->rredi[0] = ft_strtrim(dta->rredi[0], " ");
+	temp2 = ft_strtrim(dta->rredi[0], " ");
 	while (temp[i] != ' ')
 		i++;
 	while (temp[i] == ' ')
 		i++;
 	if (dta->rredi[1])
 		free (dta->rredi[1]);
+	if (dta->rredi[0])
+		free (dta->rredi[0]);
 	dta->rredi[1] = ft_strdupp(temp + i);
 	if (temp)
 		free (temp);
-	dta->rredi[0] = ft_strjoin_freee(dta->rredi[0], " ");
-	dta->rredi[0] = ft_strjoin_freee(dta->rredi[0], dta->rredi[1]);
+	temp2 = ft_strjoin_freee(temp2, " ");
+	dta->rredi[0] = ft_strjoin_freee(temp2, dta->rredi[1]);
 }
 
 void	handl_rredirect(t_data *dta, char **envp)

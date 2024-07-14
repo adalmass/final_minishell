@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:01:03 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/12 21:56:38 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/14 22:17:45 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_data
 	char	**exec;
 	int		dollar;
 	int		idx;
+	int		exit;
 	int		nb_pipe;
 	char	**cpy_envp;
 	char	**cpy_cpy;
@@ -57,7 +58,6 @@ typedef struct s_data
 	char	**str;
 	char	**redi;
 	char	**rredi;
-	char	**new_line;
 	int		file;
 }	t_data;
 
@@ -96,7 +96,7 @@ void	handl_prompt(void);
 void	multi_pipe(t_data *dta, char **envp);
 void	handl_multi_pipe(t_data *dta, char **envp, int in_fd);
 void	exec_cmd(t_data *dta, char **envp, int in_fd, int out_fd);
-void	execute_multi(char **cmd, char **envp);
+int		execute_multi(char **cmd, char **envp);
 int		check_multi_redir_happend(t_data *dta);
 void	init_cmd_multi(t_data *dta, char **envp);
 void	check_multi_redir(t_data *dta);

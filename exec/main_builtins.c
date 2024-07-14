@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:49:21 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/14 18:22:46 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/14 22:41:55 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,43 +18,42 @@ void	handl_exec(t_data *dta, char **envp)
 		print_pwd(dta);
 	else if (ft_strncmpp(dta->read[0], "env", 4) == 0)
 		print_env(dta, envp);	
-	else
+	else if (ft_strncmpp(dta->read[0], "env", 4) != 0
+			&& ft_strncmpp(dta->read[0], "pwd", 4) != 0)
 		handl_exec2(dta, envp);
 }
-
-void    print_echo_basic(t_data *dta, int i, int len)
+void	print_echo_basic(t_data *dta, int i, int len)
 {
-    printf("%s", dta->read[i]);
-    if (i != len - 1)
-        printf(" ");
+	printf("%s", dta->read[i]);
+	if (i != len - 1)
+		printf(" ");
 }
 
-void    handl_dollar(t_data *dta, int i, int len)
+void	handl_dollar(t_data *dta, int i, int len)
 {
-    while (i < len)
-    {
-        if (dta->read[i][0] == '$' && dta->read[i][1] != 0)
-        {
-            if (dta->read[i][1] == '?')
-            {
-                if (search_dollar(dta, i) == 0)
-                    dollar_what(dta);
-                else
-                    printf("%s ", dta->read[i]);
-                break ;
-            }
-            else if (search_dollar(dta, i) == 0)
-                take_var2(dta, i);
-            else
-                printf("%s ", dta->read[i]);
-
-        }
-        else
-            print_echo_basic(dta, i , len);
-        i++;
-    }
-    g_exit_status = 0;
-    printf("\n");
+	while (i < len)
+	{
+		if (dta->read[i][0] == '$' && dta->read[i][1] != 0)
+		{
+			if (dta->read[i][1] == '?')
+			{
+				if (search_dollar(dta, i) == 0)
+					dollar_what(dta);
+				else
+					printf("%s ", dta->read[i]);
+				break ;
+			}
+			else if (search_dollar(dta, i) == 0)
+				take_var2(dta, i);
+			else
+				printf("%s ", dta->read[i]);
+		}
+		else
+			print_echo_basic(dta, i , len);
+		i++;
+	}
+	g_exit_status = 0;
+	printf("\n");
 }
 
 void	handl_exec2(t_data *dta, char **envp)

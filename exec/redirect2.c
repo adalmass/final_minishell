@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:38 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/12 17:19:54 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/14 19:50:39 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,24 @@ void	regroup_cmd_args(t_data *dta)
 {
 	int		i;
 	char	*temp;
+	char	*temp2;
 
 	i = 0;
 	temp = ft_strtrim(dta->redi[1], " ");
-	dta->redi[0] = ft_strtrim(dta->redi[0], " ");
+	temp2 = ft_strtrim(dta->redi[0], " ");
 	while (temp[i] != ' ')
 		i++;
 	while (temp[i] == ' ')
 		i++;
 	if (dta->redi[1])
 		free (dta->redi[1]);
+	if (dta->redi[0])
+		free (dta->redi[0]);
 	dta->redi[1] = ft_strdupp(temp + i);
 	if (temp)
 		free (temp);
-	dta->redi[0] = ft_strjoin_freee(dta->redi[0], " ");
-	dta->redi[0] = ft_strjoin_freee(dta->redi[0], dta->redi[1]);
+	temp2 = ft_strjoin_freee(temp2, " ");
+	dta->redi[0] = ft_strjoin_freee(temp2, dta->redi[1]);
 }
 
 void	exec_redir(t_data *dta, char **envp)
@@ -104,15 +107,13 @@ void	handl_redirect2(t_data  *dta, char **envp)
 	{
 		if (count_redir(dta->exec[0], '>') == 1)
 		{
-			dta->redi = ft_splitt(dta->exec[0], '>');
 			dta->str = ft_splitt(dta->redi[1], ' ');
 			if(dta->str[1] != NULL)
 				regroup_cmd_args(dta);
 			exec_redir(dta, envp);
 		}
-		if (count_redir(dta->exec[0], '>') == 2)
+		else if (count_redir(dta->exec[0], '>') == 2)
 		{
-			dta->redi = ft_splitt(dta->exec[0], '>');
 			dta->str = ft_splitt(dta->redi[1], ' ');
 			if(dta->str[1] != NULL)
 				regroup_cmd_args(dta);

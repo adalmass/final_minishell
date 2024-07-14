@@ -3,24 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   handle_multi2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:24:28 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/12 16:59:44 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/14 22:50:49 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execute_multi(char **cmd, char **envp)
-{
+int	execute_multi(char **cmd, char **envp)
+{	
 	if (execve(cmd[0], cmd, envp) == -1)
 	{
 		g_exit_status = 127;
 		perror(RED "Command not found" RESET);
+		exit(EXIT_FAILURE);
+		return (1);
 	}
 	else
 		g_exit_status = 0;
+	return (0);
 }
 
 void	handl_cmd(t_data *dta, int in_fd, char **envp)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:25 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/12 20:11:27 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/14 22:36:38 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,18 @@ void	ft_exit(t_data *dta)
 		{
 			write(1, "exit\n", 5);
 			g_exit_status = 0;
+			free_double_tab(dta->exec);
+			free_double_tab(dta->read);
+			free_double_tab(dta->space);
 			exit(0);
 		}
 		if ((ft_strncmpp(dta->read[1], "0", 1) == 0) && dta->read[1][1] == 0)
 		{
 			write(1, "exit\n", 5);
 			g_exit_status = 0;
+			free_double_tab(dta->exec);
+			free_double_tab(dta->read);
+			free_double_tab(dta->space);
 			exit(0);
 		}
 		ft_exit2(dta);
@@ -48,12 +54,17 @@ void	ft_exit2(t_data *dta)
 			printf(RED"exit : "RESET);
 			printf(RED"%s: numeric argument required\n"RESET, dta->read[1]);
 			g_exit_status = 2;
+			free_double_tab(dta->exec);
+			free_double_tab(dta->read);
+			free_double_tab(dta->space);
 			exit(2);
 		}
 		else if (ft_atoi(dta->read[1]) != 0)
 		{
 			g_exit_status = ft_atoi(dta->read[1]);
 			write(1, "exit\n", 5);
+			free_double_tab(dta->exec);
+			free_double_tab(dta->space);
 			exit(ft_atoi(dta->read[1]));
 		}
 	}
@@ -66,7 +77,10 @@ int	ft_cd(t_data *dta)
 		if ((ft_strncmpp(dta->read[0], "cd", 2) == 0) && dta->read[0][2] == 0)
 		{
 			if (chdir(dta->read[1]) == 0)
+			{
+				g_exit_status = 0;
 				return (0);
+			}
 			else
 			{
 				perror(RED "Error cd " RESET);
@@ -87,7 +101,10 @@ void	print_pwd(t_data *dta)
 		&& dta->read[1] == 0)
 	{
 		if (getcwd(pwd, 404) != NULL)
+		{
 			printf("%s\n", pwd);
+			g_exit_status = 0;
+		}
 	}
-	free(pwd);
+	free (pwd);
 }
