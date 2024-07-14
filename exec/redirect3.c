@@ -6,21 +6,21 @@
 /*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 15:37:14 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/14 17:24:12 by aldalmas         ###   ########.fr       */
+/*   Updated: 2024/07/15 01:38:51 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    happend_or_not(t_data *dta, int i, char **envp)
+void    happend_or_not(t_data *dta, char **envp)
 {
-    if (count_redir(dta->exec[i], '>') == 1)
+    if (count_redir(dta->exec[0], '>') == 1)
     {
         if (dta->str[1] != NULL)
             regroup_cmd_args(dta);
         exec_redir(dta, envp);
     }
-    if (count_redir(dta->exec[i], '>') == 2)
+    if (count_redir(dta->exec[0], '>') == 2)
     {
         if (dta->str[1] != NULL)
             regroup_cmd_args(dta);
@@ -53,6 +53,7 @@ void	exec_redir2(t_data *dta, char **envp)
 			dup2(outcpy, STDOUT_FILENO);
 			close(outcpy);
 		}
+		free_double_tab(dta->cmd1);
 	}
 	return ;
 }

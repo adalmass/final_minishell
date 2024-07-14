@@ -6,7 +6,7 @@
 /*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:23:21 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/14 22:52:55 by aldalmas         ###   ########.fr       */
+/*   Updated: 2024/07/14 23:08:04 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,9 @@ int	check_multi_redir_happend(t_data *dta)
 
 int	check_multi_rredir(t_data *dta)
 {
-	int	j;
-	int	len;
+	int		j;
+	int		len;
+	char	*temp;
 
 	j = 0;
 	len = 0;
@@ -116,9 +117,12 @@ int	check_multi_rredir(t_data *dta)
 	{
 		if (dta->exec[dta->idx][j] == '<')
 		{
-			dta->rredi[1] = ft_strtrim(dta->rredi[1], " ");
+			temp = ft_strtrim(dta->rredi[1], " ");
+			free (dta->rredi[1]);
+			dta->rredi[1] = temp;
 			dta->file = open(dta->rredi[1], O_TRUNC | O_WRONLY,
 					S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+			free (temp);
 			return (1);
 		}
 		j++;

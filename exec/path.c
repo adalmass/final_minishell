@@ -6,7 +6,7 @@
 /*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:43 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/14 14:08:19 by aldalmas         ###   ########.fr       */
+/*   Updated: 2024/07/14 23:50:55 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	search_path(t_data *dta, char **envp)
     free(dta->cmd1[0]);
     dta->cmd1[0] = ft_strdupp(path);
     free(path);
+    free_double_tab(dta->path);
 }
 
 // void	search_path(t_data *dta, char **envp)

@@ -6,7 +6,7 @@
 /*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:01:03 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/14 22:17:45 by aldalmas         ###   ########.fr       */
+/*   Updated: 2024/07/15 01:09:18 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	handl_last_cmd(t_data *dta, int in_fd, char **envp);
 // UTILS :
 void	handl_input_output(int incpy, int outcpy);
 int		check_file(t_data *dta);
-void	init_struct_dta(t_data *dta);
+//void	init_struct_dta(t_data *dta, t_parse *p);
 char	*ft_strjoin_freee(char *stock, char *temp);
 char	*ft_strjoin_space(const char *s1, const char *s2);
 char	**ft_splitt(char const *s, char c);
@@ -141,7 +141,7 @@ void	handl_redirect2(t_data *dta, char **envp);
 void	init_struct_redi(t_data *dta, char **envp);
 void	regroup_cmd_args(t_data *dta);
 int		count_redir(char *str, char redir);
-void	happend_or_not(t_data *dta, int i, char **envp);
+void	happend_or_not(t_data *dta, char **envp);
 void	exec_redir2(t_data *dta, char **envp);
 void	exec_redir(t_data *dta, char **envp);
 // GESTION DE REVERSE REDIRECTION :

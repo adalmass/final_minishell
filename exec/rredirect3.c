@@ -6,7 +6,7 @@
 /*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 11:27:26 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/14 19:52:56 by aldalmas         ###   ########.fr       */
+/*   Updated: 2024/07/14 23:53:18 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	handl_rredirect(t_data *dta, char **envp)
 		if (dta->str[1] != NULL)
 			rregroup_cmd_args(dta);
 		prompt_redirect4(dta, envp);
+		free_double_tab(dta->str);
 	}
 }
 
@@ -69,4 +70,5 @@ void	exec_rredirect3(t_data *dta, char **envp)
 	search_path(dta, envp);
 	execute_solo(dta->cmd1, dta->envp);
 	waitpid(-1, NULL, 0);
+	free_double_tab(dta->cmd1);
 }

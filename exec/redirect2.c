@@ -6,7 +6,7 @@
 /*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:38 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/14 19:50:39 by aldalmas         ###   ########.fr       */
+/*   Updated: 2024/07/15 00:50:21 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,28 +77,14 @@ void	exec_redir(t_data *dta, char **envp)
 			dup2(outcpy, STDOUT_FILENO);
 			close(outcpy);
 		}
+		free_double_tab(dta->cmd1);
 	}
 	return ;
 }
 
 void	handl_redirect(t_data *dta, char **envp)
 {
-	
-	int	i;
-	int	len;
-
-	i = 0;
-	len = 0;
-	while (dta->exec[len])
-		len++;
-	if (dta->exec[1] != 0)
-	{
-		while (i < len)
-		{
-			happend_or_not(dta, i, envp);
-			i++;
-		}
-	}
+	happend_or_not(dta, envp);
 }
 
 void	handl_redirect2(t_data  *dta, char **envp)
@@ -111,6 +97,7 @@ void	handl_redirect2(t_data  *dta, char **envp)
 			if(dta->str[1] != NULL)
 				regroup_cmd_args(dta);
 			exec_redir(dta, envp);
+			free_double_tab(dta->str);
 		}
 		else if (count_redir(dta->exec[0], '>') == 2)
 		{
@@ -118,6 +105,7 @@ void	handl_redirect2(t_data  *dta, char **envp)
 			if(dta->str[1] != NULL)
 				regroup_cmd_args(dta);
 			exec_redir2(dta, envp);
+			free_double_tab(dta->str);
 		}
 	}
 }

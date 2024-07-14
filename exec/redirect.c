@@ -6,7 +6,7 @@
 /*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:48 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/14 19:44:46 by aldalmas         ###   ########.fr       */
+/*   Updated: 2024/07/14 23:27:43 by aldalmas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ void	check_redirect(t_data *dta)
 		{
 			temp = ft_strtrim(dta->redi[0], " ");
 			free (dta->redi[0]);
-			//free_double_tab(dta->redi);
-			//dta->redi = ft_splitt(dta->exec[0], '>');
 			dta->file = open(dta->redi[0], O_TRUNC | O_CREAT | O_WRONLY,
 					S_IRUSR | S_IWUSR);
 			close(dta->file);
