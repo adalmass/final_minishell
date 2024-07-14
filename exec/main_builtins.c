@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:49:21 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/12 20:11:50 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/14 18:22:46 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,31 +22,39 @@ void	handl_exec(t_data *dta, char **envp)
 		handl_exec2(dta, envp);
 }
 
-void	handl_dollar(t_data *dta, int i, int len)
+void    print_echo_basic(t_data *dta, int i, int len)
 {
-	while (i < len)
-	{
-		if (dta->read[i][0] == '$' && dta->read[i][1] != 0)
-		{
-			if (dta->read[i][1] == '?')
-			{
-				if (search_dollar(dta, i) == 0)
-					dollar_what(dta);
-				else
-					printf("%s ", dta->read[i]);
-				break ;
-			}
-			else if (search_dollar(dta, i) == 0)
-				take_var2(dta, i);
-			else
-				printf("%s ", dta->read[i]);
+    printf("%s", dta->read[i]);
+    if (i != len - 1)
+        printf(" ");
+}
 
-		}
-		else
-			printf("%s ", dta->read[i]);
-		i++;
-	}
-	printf("\n");
+void    handl_dollar(t_data *dta, int i, int len)
+{
+    while (i < len)
+    {
+        if (dta->read[i][0] == '$' && dta->read[i][1] != 0)
+        {
+            if (dta->read[i][1] == '?')
+            {
+                if (search_dollar(dta, i) == 0)
+                    dollar_what(dta);
+                else
+                    printf("%s ", dta->read[i]);
+                break ;
+            }
+            else if (search_dollar(dta, i) == 0)
+                take_var2(dta, i);
+            else
+                printf("%s ", dta->read[i]);
+
+        }
+        else
+            print_echo_basic(dta, i , len);
+        i++;
+    }
+    g_exit_status = 0;
+    printf("\n");
 }
 
 void	handl_exec2(t_data *dta, char **envp)

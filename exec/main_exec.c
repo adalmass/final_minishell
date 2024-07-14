@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:40 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/12 16:51:19 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/14 18:30:57 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	handl_env(t_data *dta, char **envp)
 
 void	init_struct_redi(t_data *dta, char **envp)
 {
-	if (dta->exec[1] != 0)
+	if (dta->exec[1] != 0)	
 		multi_pipe(dta, envp);
 	if (dta->exec[1] == 0)
 	{
