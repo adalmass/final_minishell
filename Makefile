@@ -7,12 +7,16 @@ SRC = main.c \
 	  exec/builtins.c \
 	  exec/builtins2.c \
 	  exec/builtins3.c \
+	  exec/builtins4.c \
 	  exec/builtins_echo_n.c \
 	  exec/utils.c \
+	  exec/exec_redir_regrp.c \
 	  exec/utils2.c \
 	  exec/exec.c \
+	  exec/handle_env.c \
 	  exec/handle_multi.c \
 	  exec/handle_multi2.c \
+	  exec/handle_multi3.c \
 	  exec/dollar.c \
 	  exec/dollar2.c \
 	  exec/redirect.c \
@@ -36,6 +40,7 @@ SRC = main.c \
 	  exec/libft/ft_substr.c \
 	  parsing/parsing.c \
 	  parsing/check_cmd.c \
+	  parsing/check_cmd2.c \
 	  parsing/tools.c \
 	  parsing/utils.c \
 	  parsing/redir_n_pipe.c \

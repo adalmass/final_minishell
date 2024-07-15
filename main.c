@@ -3,49 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 10:11:25 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/15 01:19:05 by aldalmas         ###   ########.fr       */
+/*   Updated: 2024/07/15 18:45:28 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing/parsing.h"
 #include "exec/minishell.h"
 
-int    g_exit_status;
+int	g_exit_status;
 
-void    cmdtable_to_exec(t_parse *p, t_data *dta)
+void	cmdtable_to_exec(t_parse *p, t_data *dta)
 {
 	int	y;
 	int	i;
 
 	i = 0;
 	y = 0;
-	while(p->cmd_table[y])
+	while (p->cmd_table[y])
 		y++;
 	dta->exec = ft_calloc(y + 1, sizeof(char *));
-	while(i < y)
+	while (i < y)
 	{
 		dta->exec[i] = ft_strdup(p->cmd_table[i]);
 		i++;
 	}
 	dta->exec[i] = NULL;
 	free_double_tab(p->cmd_table);
-}
-
-int    only_space(char *s)
-{
-	int    i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] != ' ')
-			return (0);
-		i++;
-	}
-	return (1);
 }
 
 void	handl_input_output(int incpy, int outcpy)
@@ -64,12 +50,47 @@ void	handl_input_output(int incpy, int outcpy)
 	}
 }
 
-int    main(int argc, char **argv, char **envp)
+void	main_loop(t_parse *p, t_data *dta, char **envp)
+{
+	if (ft_strlen(p->cmd_line) > 0)
+	{
+		add_history(p->cmd_line);
+		if (!only_space(p->cmd_line))
+		{
+			if (parsing(p))
+			{
+				cmdtable_to_exec(p, dta);
+				dta->read = ft_splitt(dta->exec[0], ' ');
+				dta->free_var = dta->read;
+				dta->space = ft_splitt(p->cmd_line, ' ');
+				handl_exec(dta, envp);
+				if (dta->exec)
+					free_double_tab(dta->exec);
+				if (dta->free_var != NULL)
+				{
+					free_double_tab(dta->read);
+					dta->free_var = NULL;
+				}
+				if (dta->space)
+					free_double_tab(dta->space);
+			}
+		}
+	}
+}
+
+void	initialize(t_data *dta, char **envp)
+{
+	using_history();
+	handl_prompt();
+	custom();
+	init_all_struct(dta);
+	handl_env(dta, envp);
+}
+
+int	main(int argc, char **argv, char **envp)
 {
 	t_parse	p;
 	t_data	*dta;
-	(void)  argc;
-	(void)  argv;
 	int		incpy;
 	int		outcpy;
 
@@ -77,11 +98,8 @@ int    main(int argc, char **argv, char **envp)
 	outcpy = dup(STDOUT_FILENO);
 	dta = malloc(sizeof(t_data));
 	dta->envp = envp;
-	handl_env(dta, envp);
-	handl_prompt();
-	custom();
-	using_history();
-	while (1)
+	initialize(dta, envp);
+	while (1 || argc || argv)
 	{
 		p.error_found = 0;
 		while (p.error_found == 0)
@@ -89,26 +107,7 @@ int    main(int argc, char **argv, char **envp)
 			p.cmd_line = readline("\033[0;35mMINISHELL$>\033[0;37m");
 			if (!p.cmd_line)
 				exit (0);
-			//dta->line = ft_strdup(p.cmd_line);
-			if (ft_strlen(p.cmd_line) > 0)
-			{
-				add_history(p.cmd_line);
-				if (!only_space(p.cmd_line))
-				{
-					if (parsing(&p))
-					{
-						cmdtable_to_exec(&p, dta);
-						//init_struct_dta(dta, &p);
-						dta->read = ft_splitt(dta->exec[0], ' ');
-						dta->space = ft_splitt(p.cmd_line, ' ');
-						handl_exec(dta, envp);
-						if(dta->exec)
-							free_double_tab(dta->exec);
-						if(dta->space)
-							free_double_tab(dta->space);
-					}
-				}
-			}
+			main_loop(&p, dta, envp);
 			handl_input_output(incpy, outcpy);
 			if (p.cmd_line)
 				free (p.cmd_line);
