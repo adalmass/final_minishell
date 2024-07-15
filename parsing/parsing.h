@@ -72,6 +72,7 @@ int		error_pipe(t_parse *p);
 int		check_redir(t_parse *p, char *cmd);
 void	check_all_errors(t_parse *p);
 void	check_redir2(t_parse *p, char *cmd);
+void	redir_last_char(t_parse *p, char *cmd);
 
 // --- remove_quotes.c
 int		check_quotes_closed(t_parse *p, char quote);
