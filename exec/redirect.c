@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:48 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/14 23:27:43 by aldalmas         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:42:10 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	check_file(t_data *dta)
 
 void	check_redirect(t_data *dta)
 {
-	char *temp;
+	char	*temp;
 
 	if (dta->read[0][0] == '>' && dta->read[0][1] == '>')
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:01:03 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/15 01:09:18 by aldalmas         ###   ########.fr       */
+/*   Updated: 2024/07/15 19:40:36 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ typedef struct s_data
 	pid_t	pid;
 	char	**space;
 	char	**exec;
+	void	*free_var;
+	void	*free_rredi;
+	void	*free_redi;
 	int		dollar;
 	int		idx;
 	int		exit;
@@ -78,8 +81,12 @@ int		ft_cd(t_data *dta);
 void	ft_export(t_data *dta);
 void	ft_export2(t_data *dta);
 void	ft_export3(t_data *dta, int y);
+void	ft_update_export(t_data *dta, int i);
 int		check_export(t_data *dta, int y);
 void	ft_unset(t_data *dta, char **envp);
+void	ft_unset2(t_data *dta, int cmd);
+void	ft_unset3(t_data *dta, int i);
+
 // SIGNAUX :
 void	handl_signals(int signum);
 void	handl_prompt(void);
@@ -102,10 +109,16 @@ void	init_cmd_multi(t_data *dta, char **envp);
 void	check_multi_redir(t_data *dta);
 int		check_multi_rredir(t_data *dta);
 void	handl_last_cmd(t_data *dta, int in_fd, char **envp);
+void	init_cmd_multi(t_data *dta, char **envp);
+void	exec_cmd(t_data *dta, char **envp, int in_fd, int out_fd);
+void	check_multi_redir(t_data *dta);
+void	check_multi_redir_happend2(t_data *dta);
+int		check_multi_redir_happend(t_data *dta);
+void	handl_cmd(t_data *dta, int in_fd, char **envp);
 // UTILS :
 void	handl_input_output(int incpy, int outcpy);
 int		check_file(t_data *dta);
-//void	init_struct_dta(t_data *dta, t_parse *p);
+void	init_all_struct(t_data *dta);
 char	*ft_strjoin_freee(char *stock, char *temp);
 char	*ft_strjoin_space(const char *s1, const char *s2);
 char	**ft_splitt(char const *s, char c);
@@ -114,14 +127,16 @@ char	*ft_strjoin(char const *s1, char const *s2);
 void	*ft_calloc(size_t count, size_t size);
 int		ft_strncmpp(const char*s1, const char *s2, size_t n);
 size_t	ft_strlenn(const char *str);
-int 	len_read(char **tab, int i);
-int 	len_cmd(char **tab);
+int		len_read(char **tab, int i);
+int		len_cmd(char **tab);
 char	*ft_strchrr(const char *s, int c);
 char	*ft_strdupp(const char *s1);
 int		ft_atoi(const char *str);
 char	*ft_substrr(const char *s, unsigned int start, size_t len);
 int		ft_isalphaa(char *str);
 int		doubletab_len(char **tab);
+int		only_space(char *s);
+
 //PRINT_EXIT_STATUS
 void	handl_dollar(t_data *dta, int i, int len);
 void	dollar_what(t_data *dta);
@@ -136,8 +151,11 @@ void	take_var2(t_data *dta, int z);
 void	check_redirect(t_data *dta);
 void	check_redirect2(t_data *dta);
 void	check_redirect3(t_data *dta);
+void	execute_redir(t_data *dta);
 void	handl_redirect(t_data *dta, char **envp);
 void	handl_redirect2(t_data *dta, char **envp);
+void	init_struct_redi3(t_data *dta);
+void	init_struct_redi2(t_data *dta, char **envp);
 void	init_struct_redi(t_data *dta, char **envp);
 void	regroup_cmd_args(t_data *dta);
 int		count_redir(char *str, char redir);
@@ -147,6 +165,7 @@ void	exec_redir(t_data *dta, char **envp);
 // GESTION DE REVERSE REDIRECTION :
 void	check_reverse_redirect(t_data *dta, char **envp);
 void	handl_redirect_input2(t_data *dta, char **envp);
+void	execute_redir_input(t_data *dta);
 void	exec_redir_input(t_data *dta, char **envp);
 void	regroup_cmd_args_input(t_data *dta);
 void	handl_rredirect(t_data *dta, char **envp);

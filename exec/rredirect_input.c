@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rredirect_input.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 13:09:35 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/15 00:57:28 by aldalmas         ###   ########.fr       */
+/*   Updated: 2024/07/15 19:41:46 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,21 @@ void	regroup_cmd_args_input(t_data *dta)
 	dta->rredi[0] = ft_strjoin_freee(temp, dta->rredi[1]);
 }
 
+void	execute_redir_input(t_data *dta)
+{
+	dup2(dta->file, STDIN_FILENO);
+	close(dta->file);
+	execute_solo(dta->cmd1, dta->envp);
+	waitpid(-1, NULL, 0);
+}
+
 void	exec_redir_input(t_data *dta, char **envp)
 {
 	int	incpy;
 
 	incpy = dup(STDIN_FILENO);
 	if (access(dta->str[0], F_OK) == -1)
-	{
 		perror("Error file");
-		return ;
-	}
 	else
 		dta->file = open(dta->str[0], O_TRUNC | O_WRONLY,
 				S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
@@ -58,10 +63,7 @@ void	exec_redir_input(t_data *dta, char **envp)
 	}
 	else
 	{
-		dup2(dta->file, STDIN_FILENO);
-		close(dta->file);
-		execute_solo(dta->cmd1, dta->envp);
-		waitpid(-1, NULL, 0);
+		execute_redir_input(dta);
 		dup2(incpy, STDIN_FILENO);
 		close(incpy);
 		free_double_tab(dta->cmd1);

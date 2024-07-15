@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:49:21 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/14 22:41:55 by aldalmas         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:35:40 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@ void	handl_exec(t_data *dta, char **envp)
 	if (ft_strncmpp(dta->read[0], "pwd", 4) == 0)
 		print_pwd(dta);
 	else if (ft_strncmpp(dta->read[0], "env", 4) == 0)
-		print_env(dta, envp);	
+		print_env(dta, envp);
 	else if (ft_strncmpp(dta->read[0], "env", 4) != 0
-			&& ft_strncmpp(dta->read[0], "pwd", 4) != 0)
+		&& ft_strncmpp(dta->read[0], "pwd", 4) != 0)
 		handl_exec2(dta, envp);
 }
+
 void	print_echo_basic(t_data *dta, int i, int len)
 {
 	printf("%s", dta->read[i]);
@@ -49,7 +50,7 @@ void	handl_dollar(t_data *dta, int i, int len)
 				printf("%s ", dta->read[i]);
 		}
 		else
-			print_echo_basic(dta, i , len);
+			print_echo_basic(dta, i, len);
 		i++;
 	}
 	g_exit_status = 0;
@@ -61,6 +62,7 @@ void	handl_exec2(t_data *dta, char **envp)
 	int	i;
 	int	len;
 
+	(void) envp;
 	i = 1;
 	len = 0;
 	while (dta->read[len])
@@ -73,7 +75,7 @@ void	handl_exec2(t_data *dta, char **envp)
 			print_echo(dta);
 			g_exit_status = 0;
 		}
-		else 
+		else
 		{
 			handl_dollar(dta, i, len);
 			g_exit_status = 0;

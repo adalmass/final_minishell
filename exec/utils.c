@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:59 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/08 16:27:09 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/15 19:37:01 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,10 @@ char	*ft_strjoin_space(const char *s1, const char *s2)
 		str[i + n] = s2[n];
 	str[i + n] = 0;
 	return (str);
+}
+
+void	handl_prompt(void)
+{
+	signal(SIGINT, handl_signals);
+	signal(SIGQUIT, handl_signals);
 }

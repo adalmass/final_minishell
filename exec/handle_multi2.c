@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   handle_multi2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:24:28 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/14 22:50:49 by aldalmas         ###   ########.fr       */
+/*   Updated: 2024/07/15 16:35:23 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	execute_multi(char **cmd, char **envp)
-{	
+{
 	if (execve(cmd[0], cmd, envp) == -1)
 	{
 		g_exit_status = 127;
@@ -74,7 +74,8 @@ void	handl_multi_pipe(t_data *dta, char **envp, int in_fd)
 	{
 		if (pipe(dta->pipe_fd) == -1)
 			perror(RED "fork" RESET);
-		if ((dta->pid = fork()) == -1)
+		dta->pid = fork();
+		if (dta->pid == -1)
 			perror(RED "fork" RESET);
 		if (dta->pid == 0)
 			handl_cmd(dta, in_fd, envp);
@@ -87,28 +88,9 @@ void	handl_multi_pipe(t_data *dta, char **envp, int in_fd)
 		}
 		dta->idx++;
 	}
-	if ((dta->pid = fork()) == -1)
+	dta->pid = fork();
+	if (dta->pid == -1)
 		perror(RED "fork" RESET);
 	if (dta->pid == 0)
 		handl_last_cmd(dta, in_fd, envp);
-}
-
-void	multi_pipe(t_data *dta, char **envp)
-{
-	int	in_fd;
-	int	out_fd;
-
-	in_fd = STDIN_FILENO;
-	dta->idx = 0;
-	in_fd = dup(STDIN_FILENO);
-	out_fd = dup(STDOUT_FILENO);
-	close(dta->file);
-	handl_multi_pipe(dta, envp, in_fd);
-	dup2(in_fd, STDIN_FILENO);
-	close(in_fd);
-	while (waitpid(-1, NULL, 0) > 0)
-		;
-	close(out_fd);
-	dta->idx = 0;
-	dta->nb_pipe = 0;
 }

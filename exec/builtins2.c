@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:25 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/14 22:36:38 by aldalmas         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:05:07 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,15 @@ void	ft_exit(t_data *dta)
 	}
 }
 
+void	ft_exit3(t_data *dta)
+{
+	g_exit_status = ft_atoi(dta->read[1]);
+	write(1, "exit\n", 5);
+	free_double_tab(dta->exec);
+	free_double_tab(dta->space);
+	exit(ft_atoi(dta->read[1]));
+}
+
 void	ft_exit2(t_data *dta)
 {
 	if (dta->read[1] != 0)
@@ -60,13 +69,7 @@ void	ft_exit2(t_data *dta)
 			exit(2);
 		}
 		else if (ft_atoi(dta->read[1]) != 0)
-		{
-			g_exit_status = ft_atoi(dta->read[1]);
-			write(1, "exit\n", 5);
-			free_double_tab(dta->exec);
-			free_double_tab(dta->space);
-			exit(ft_atoi(dta->read[1]));
-		}
+			ft_exit3(dta);
 	}
 }
 

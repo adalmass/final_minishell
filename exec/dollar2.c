@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   dollar2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:26:26 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/15 00:15:49 by aldalmas         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:18:40 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	dollar_what3(t_data *dta)
+{
+	if (dta->exit == 127)
+		printf("%d ", dta->exit);
+	else
+		printf("%d ", g_exit_status);
+}
 
 void	dollar_what2(t_data *dta, int j, int len, int i)
 {
@@ -25,31 +33,25 @@ void	dollar_what2(t_data *dta, int j, int len, int i)
 
 void	dollar_what(t_data *dta)
 {
-	
 	int	i;
 	int	j;
 	int	len;
-	int cmd;
+	int	cmd;
 
 	i = 1;
 	j = 2;
+	len = 0;
 	cmd = len_cmd(dta->read);
 	while (i < cmd)
 	{
 		len = len_read(dta->read, i);
-		if(len >= 2 && ft_strncmpp(dta->read[i], "$?", 2) == 0)
+		if (len >= 2 && ft_strncmpp(dta->read[i], "$?", 2) == 0)
 		{
 			j = 2;
 			if (dta->read[i][j] == 0)
-			{
-				if(dta->exit == 127)
-					printf("%d ", dta->exit);
-				else
-					printf("%d ", g_exit_status);
-			}
-			
+				dollar_what3(dta);
 			else if (dta->read[i][j] != 0)
-				dollar_what2(dta, j, len, i);	
+				dollar_what2(dta, j, len, i);
 		}
 		else
 			printf("%s ", dta->read[i]);

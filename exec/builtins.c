@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aldalmas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:21 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/14 15:17:03 by aldalmas         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:02:48 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	print_env(t_data *dta, char **envp)
 {
-	(void) envp;
 	int	i;
 
+	(void) envp;
 	i = 0;
 	if ((ft_strncmpp(dta->read[0], "env\0", 4) == 0) && dta->read[1] == 0)
 	{

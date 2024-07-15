@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:00:35 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/11 17:34:52 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:11:26 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*take_var(t_data *dta, int i)
 
 	j = 1;
 	k = 0;
-	limit = ft_strlenn(dta->read[i]) - 1;
+	limit = len_read(dta->read, i);
 	new_cmd = malloc(sizeof(char) * (limit + 1));
 	while (dta->read[i][j] && k <= limit)
 	{
@@ -51,7 +51,7 @@ void	take_var3(t_data *dta)
 
 void	take_var4(t_data *dta, int i, int j)
 {
-	int len;
+	int	len;
 
 	len = len_read(dta->cpy_envp, i);
 	while (dta->cpy_envp[i][j] != '=')
