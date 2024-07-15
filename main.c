@@ -6,7 +6,7 @@
 /*   By: bbousaad <bbousaad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 10:11:25 by bbousaad          #+#    #+#             */
-/*   Updated: 2024/07/15 18:45:28 by bbousaad         ###   ########.fr       */
+/*   Updated: 2024/07/15 19:49:59 by bbousaad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	initialize(t_data *dta, char **envp)
 	custom();
 	init_all_struct(dta);
 	handl_env(dta, envp);
+	dta->envp = envp;
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -94,10 +95,11 @@ int	main(int argc, char **argv, char **envp)
 	int		incpy;
 	int		outcpy;
 
+	if (doubletab_len(envp) < 1)
+		return (printf("no envp, get out of my minishell\n"), 1);
 	incpy = dup(STDIN_FILENO);
 	outcpy = dup(STDOUT_FILENO);
 	dta = malloc(sizeof(t_data));
-	dta->envp = envp;
 	initialize(dta, envp);
 	while (1 || argc || argv)
 	{
